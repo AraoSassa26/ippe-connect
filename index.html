@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPPE CONNECT</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<div class="container">
+
+<a class="navbar-brand" href="#">
+IPPE CONNECT
+</a>
+
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link" href="#">Início</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#cursos">Cursos</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#galeria">Galeria</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#noticias">Notícias</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#sobre">Sobre</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link btn btn-primary text-white ms-2" href="pages/login.html">
+Entrar no Portal
+</a>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="bg-primary text-white text-center p-5">
+
+<div class="container">
+
+<h1>IPPE CONNECT</h1>
+
+<p>Unindo estudantes, professores e ideias.</p>
+
+<a href="#cursos" class="btn btn-light">
+Ver Cursos
+</a>
+
+<a href="pages/login.html" class="btn btn-dark">
+Entrar no Portal
+</a>
+
+</div>
+
+</section>
+
+
+<!-- CURSOS -->
+
+<section id="cursos" class="p-5">
+
+<div class="container">
+
+<h2 class="text-center mb-4">Cursos</h2>
+
+<div class="row" id="listaCursos">
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- GALERIA -->
+
+<section id="galeria" class="bg-light p-5">
+
+<div class="container">
+
+<h2 class="text-center mb-4">Galeria da Instituição</h2>
+
+<div class="row">
+
+<div class="col-md-4">
+<img src="assets/ft01.jpg" class="img-fluid rounded">
+</div>
+
+<div class="col-md-4">
+<img src="assets/ft02.jpg" class="img-fluid rounded">
+</div>
+
+<div class="col-md-4">
+<img src="assets/ft03.jpg" class="img-fluid rounded">
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- NOTÍCIAS -->
+
+<section id="noticias" class="p-5">
+
+<div class="container">
+
+<h2 class="text-center mb-4">Notícias</h2>
+
+<div id="listaNoticias" class="row">
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SOBRE -->
+
+<section id="sobre" class="bg-light p-5">
+
+<div class="container text-center">
+
+<h2>Sobre a Instituição</h2>
+
+<p>
+
+O Instituto Politécnico Privado Epatuluko é uma instituição dedicada
+à formação técnica e profissional de qualidade, preparando estudantes
+para os desafios do mercado de trabalho.
+
+</p>
+
+</div>
+
+</section>
+
+
+<!-- RODAPÉ -->
+
+<footer class="bg-dark text-white text-center p-3">
+
+<p>
+© 2026 IPPE CONNECT
+</p>
+
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script src="js/supabaseClient.js"></script>
+<script src="js/site.js"></script>
+
+</body>
+
+</html>
