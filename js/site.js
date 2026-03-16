@@ -19,7 +19,7 @@ container.innerHTML+=`
 
 <div class="card mb-4">
 
-<img src="images/curso1.jpg" class="card-img-top">
+<img src="assets/ft1.jpg" class="card-img-top">
 
 <div class="card-body">
 
