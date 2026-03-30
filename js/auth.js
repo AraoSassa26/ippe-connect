@@ -17,28 +17,26 @@ verificarPerfil()
 
 }
 
-async function verificarUsuario(){
+async function verificarPerfil(){
 
-let user = await supabaseClient.auth.getUser()
+const { data: { user } } = await supabaseClient.auth.getUser()
 
-let { data } = await supabaseClient
+const { data } = await supabaseClient
 .from("usuarios")
-.select("tipo")
-.eq("id", user.data.user.id)
+.select("role")
+.eq("id", user.id)
 .single()
 
-if(data.tipo === "admin"){
-window.location.href = "pages/admin-dashboard.html"
+if(data.role === "admin"){
+window.location.href = "/pages/dashboard-admin.html"
 }
 
-if(data.tipo === "professor"){
-window.location.href = "pages/professor-dashboard.html"
+if(data.role === "professor"){
+window.location.href = "/pages/dashboard-professor.html"
 }
 
-if(data.tipo === "aluno"){
-window.location.href = "pages/aluno-dashboard.html"
-}
-
+if(data.role === "aluno"){
+window.location.href = "/pages/dashboard-aluno.html"
 }
 
 
@@ -62,3 +60,4 @@ alert("Email de recuperação enviado")
 
 
 
+}
