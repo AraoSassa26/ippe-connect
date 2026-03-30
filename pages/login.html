@@ -335,57 +335,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="../js/supabaseClient.js"></script>
-
-<script>
-
-function showAlert(msg, type) {
-    const box = document.getElementById('alertBox');
-    box.textContent = msg;
-    box.className = `alert show alert-${type}`;
-    if (type === 'success') {
-        setTimeout(() => box.classList.remove('show'), 2000);
-    }
-}
-
-// Abrir Modal Esqueceu Senha
-function abrirModalEsqueceuSenha(event) {
-    event.preventDefault();
-    document.getElementById('modalEsqueceuSenha').classList.add('show');
-}
-
-// Fechar Modal Esqueceu Senha
-function fecharModalEsqueceuSenha() {
-    document.getElementById('modalEsqueceuSenha').classList.remove('show');
-}
-
-// Fechar modal ao clicar fora
-document.getElementById('modalEsqueceuSenha').addEventListener('click', function(e) {
-    if (e.target === this) {
-        fecharModalEsqueceuSenha();
-    }
-});
-
-// Login com Google
-function loginGoogle() {
-    showAlert('⚠️ Login com Google ainda não está disponível', 'error');
-}
-
-// Login com Facebook
-function loginFacebook() {
-    showAlert('⚠️ Login com Facebook ainda não está disponível', 'error');
-}
-
-// Simular usuários com tipo
-const usuarios = {
-    'joao@ippe.ao': { tipo: 'aluno', nome: 'João Silva' },
-    'maria@ippe.ao': { tipo: 'aluno', nome: 'Maria Santos' },
-    'professor@ippe.ao': { tipo: 'docente', nome: 'Dr. Carlos Silva' },
-    'admin@ippe.ao': { tipo: 'admin', nome: 'Administrador' },
-    'financeiro@ippe.ao': { tipo: 'financeiro', nome: 'Financeiro' }
-};
-
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -401,45 +350,43 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     btnLogin.disabled = true;
     btnLogin.innerHTML = '<span class="loading-spinner"></span>Autenticando...';
 
-    try {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({
-            email, password: senha
-        });
-        
-        if (error) throw error;
-        
-        // Obter tipo de usuário
-        const usuario = usuarios[email];
-        if (!usuario) {
-            throw new Error('Usuário não encontrado no sistema');
-        }
+    // ❌ REMOVA ISTO:
+    // try {
+    //     const { data, error } = await supabaseClient.auth.signInWithPassword({
+    //         email, password: senha
+    //     });
+    //     if (error) throw error;
+    // }
 
-        // Armazenar informações do usuário
-        localStorage.setItem('user_type', usuario.tipo);
-        localStorage.setItem('user_name', usuario.nome);
-        localStorage.setItem('user_email', email);
-        
-        showAlert('Login realizado!', 'success');
-        
-        // Redirecionar conforme tipo
-        setTimeout(() => {
-            const pages = {
-                docente: 'dashboard-professor.html',
-                admin: 'dashboard-admin.html',
-                financeiro: 'dashboard-financeiro.html',
-                aluno: 'dashboard-aluno.html'
-            };
-            window.location.href = pages[usuario.tipo];
-        }, 1500);
-        
-    } catch (err) {
+    // ✅ ADICIONE ISTO:
+    const usuarios = {
+        'joao@ippe.ao': { tipo: 'aluno', nome: 'João Silva', senha: '123' },
+        'maria@ippe.ao': { tipo: 'aluno', nome: 'Maria Santos', senha: '123' },
+        'professor@ippe.ao': { tipo: 'docente', nome: 'Dr. Carlos Silva', senha: '123' },
+        'admin@ippe.ao': { tipo: 'admin', nome: 'Administrador', senha: '123' },
+        'financeiro@ippe.ao': { tipo: 'financeiro', nome: 'Financeiro', senha: '123' }
+    };
+
+    const usuario = usuarios[email];
+    
+    if (!usuario || usuario.senha !== senha) {
         btnLogin.disabled = false;
         btnLogin.innerHTML = 'Entrar';
-        showAlert('Erro: ' + err.message, 'error');
+        showAlert('Email ou palavra-passe incorretos', 'error');
+        return;
     }
+
+    // Armazenar informações do usuário
+    localStorage.setItem('user_type', usuario.tipo);
+    localStorage.setItem('user_name', usuario.nome);
+    localStorage.setItem('user_email', email);
+    
+    showAlert('Login realizado!', 'success');
+    
+    // Redirecionar conforme tipo
+    setTimeout(() => {
+        window.location.href = `dashboard-${usuario.tipo}.html`;
+    }, 1500);
 });
-
-</script>
-
 </body>
 </html>
