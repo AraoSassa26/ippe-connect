@@ -15,6 +15,7 @@ body {
   font-family: 'Poppins', sans-serif;
   background: #f5f7fb;
   color: var(--text);
+  
 }
 
 .app-shell {
@@ -99,6 +100,8 @@ body {
   border-radius: 12px;
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
   background: var(--surface);
+  border:none;
+  transition:0.2s;
 }
 
 .card h3 {
@@ -173,4 +176,8 @@ body.sidebar-open {
   .content {
     padding: 1rem;
   }
+}
+
+.card:hover{
+transform:translateY(-5px);
 }
