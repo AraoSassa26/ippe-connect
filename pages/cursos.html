@@ -1,36 +1,275 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cursos - IPPE CONNECT</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos - IPPE CONNECT</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
-<body class="bg-light">
-<div class="container mt-5">
-<h2>Cursos</h2>
-<button class="btn btn-success mb-3" onclick="abrirModal()">Adicionar Curso</button>
-<table class="table table-striped">
-<thead>
-<tr><th>Nome</th><th>Descrição</th><th>Ações</th></tr>
-</thead>
-<tbody id="tabelaCursos"></tbody>
-</table>
+
+<body>
+
+<div class="dashboard-container">
+    
+    <!-- NAVBAR -->
+    <nav class="navbar-custom">
+        <div class="navbar-brand-custom">
+            <i class="bi bi-speedometer2"></i> IPPE CONNECT
+        </div>
+        <button class="menu-toggle" id="menuToggle">
+            <i class="bi bi-list"></i>
+        </button>
+        <div class="navbar-actions">
+            <span id="userDisplay">Admin</span>
+            <button class="btn btn-light btn-sm" onclick="logout()">
+                <i class="bi bi-box-arrow-right"></i> Sair
+            </button>
+        </div>
+    </nav>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <a href="dashboard-admin.html" class="sidebar-item">
+            <i class="bi bi-house-fill"></i> Dashboard
+        </a>
+        <a href="alunos.html" class="sidebar-item">
+            <i class="bi bi-people-fill"></i> Estudantes
+        </a>
+        <a href="docentes.html" class="sidebar-item">
+            <i class="bi bi-person-badge-fill"></i> Docentes
+        </a>
+        <a href="cursos.html" class="sidebar-item active">
+            <i class="bi bi-mortarboard-fill"></i> Cursos
+        </a>
+        <a href="disciplinas.html" class="sidebar-item">
+            <i class="bi bi-book-fill"></i> Disciplinas
+        </a>
+        <a href="turmas.html" class="sidebar-item">
+            <i class="bi bi-collection-fill"></i> Turmas
+        </a>
+        <a href="notas.html" class="sidebar-item">
+            <i class="bi bi-file-earmark-text-fill"></i> Notas
+        </a>
+        <a href="pagamentos.html" class="sidebar-item">
+            <i class="bi bi-credit-card-fill"></i> Pagamentos
+        </a>
+        <hr>
+        <a href="configuracoes.html" class="sidebar-item">
+            <i class="bi bi-gear-fill"></i> Configurações
+        </a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        
+        <div class="page-header">
+            <h1>📚 Gestão de Cursos</h1>
+            <button class="btn btn-primary" onclick="abrirModalNovoCurso()">
+                <i class="bi bi-plus-circle"></i> Novo Curso
+            </button>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="filters">
+            <input type="text" id="searchCursos" class="form-control" placeholder="🔍 Procurar curso...">
+            <select id="filterStatus" class="form-control">
+                <option value="">Todos os Status</option>
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+            </select>
+        </div>
+
+        <!-- TABELA -->
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome do Curso</th>
+                        <th>Código</th>
+                        <th>Coordenador</th>
+                        <th>Duração</th>
+                        <th>Turmas</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaCursos">
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">Carregando...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
 </div>
 
-<div class="modal" id="modalCurso">
-<div class="modal-dialog">
-<div class="modal-content p-3">
-<h5>Adicionar Curso</h5>
-<input type="text" id="nomeCurso" placeholder="Nome" class="form-control mb-2">
-<input type="text" id="descricaoCurso" placeholder="Descrição" class="form-control mb-2">
-<button class="btn btn-primary" onclick="adicionarCurso()">Salvar</button>
-<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
-</div>
-</div>
+<!-- MODAL NOVO CURSO -->
+<div class="modal fade" id="modalCurso" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-plus-circle"></i> Novo Curso
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formCurso">
+                    <div class="mb-3">
+                        <label class="form-label">Nome do Curso</label>
+                        <input type="text" class="form-control" id="nomeCurso" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Código do Curso</label>
+                        <input type="text" class="form-control" id="codigoCurso" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricaoCurso" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Coordenador</label>
+                        <select class="form-control" id="coordenadorCurso" required>
+                            <option value="">Seleccione um docente</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Duração (em semestres)</label>
+                        <input type="number" class="form-control" id="duracaoCurso" value="4" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Preço Mensal (em Kz)</label>
+                        <input type="number" class="form-control" id="precoCurso" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="salvarCurso()">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="../js/supabaseClient.js"></script>
-<script src="../js/cursos.js"></script>
+<script src="../js/dashboard.js"></script>
+
+<script>
+
+// Carregar cursos
+async function carregarCursos() {
+    try {
+        const tbody = document.getElementById('tabelaCursos');
+        
+        // Simular dados (substituir com dados reais do Supabase)
+        const cursos = [
+            {
+                id: 1,
+                nome: 'Licenciatura em Sistemas de Informação',
+                codigo: 'LSI-001',
+                coordenador: 'Dr. Carlos Silva',
+                duracao: 4,
+                turmas: 3,
+                status: 'ativo'
+            },
+            {
+                id: 2,
+                nome: 'Licenciatura em Computação',
+                codigo: 'LC-002',
+                coordenador: 'Dr. João Santos',
+                duracao: 4,
+                turmas: 2,
+                status: 'ativo'
+            },
+            {
+                id: 3,
+                nome: 'Técnico em Redes de Computadores',
+                codigo: 'TRC-003',
+                coordenador: 'Dr. Maria Oliveira',
+                duracao: 2,
+                turmas: 1,
+                status: 'ativo'
+            }
+        ];
+
+        tbody.innerHTML = cursos.map(curso => `
+            <tr>
+                <td><strong>${curso.nome}</strong></td>
+                <td>${curso.codigo}</td>
+                <td>${curso.coordenador}</td>
+                <td>${curso.duracao} semestres</td>
+                <td><span class="badge bg-info">${curso.turmas}</span></td>
+                <td><span class="badge ${curso.status === 'ativo' ? 'bg-success' : 'bg-danger'}">${curso.status === 'ativo' ? '✓ Ativo' : '✗ Inativo'}</span></td>
+                <td>
+                    <button class="btn btn-sm btn-primary" onclick="editarCurso(${curso.id})"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-sm btn-danger" onclick="deletarCurso(${curso.id})"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        
+    } catch (error) {
+        console.error('Erro ao carregar cursos:', error);
+    }
+}
+
+function abrirModalNovoCurso() {
+    document.getElementById('formCurso').reset();
+    new bootstrap.Modal(document.getElementById('modalCurso')).show();
+}
+
+function salvarCurso() {
+    const nome = document.getElementById('nomeCurso').value;
+    const codigo = document.getElementById('codigoCurso').value;
+    const descricao = document.getElementById('descricaoCurso').value;
+    const coordenador = document.getElementById('coordenadorCurso').value;
+    const duracao = document.getElementById('duracaoCurso').value;
+    const preco = document.getElementById('precoCurso').value;
+
+    if (!nome || !codigo || !coordenador || !duracao || !preco) {
+        alert('⚠️ Por favor, preencha todos os campos obrigatórios!');
+        return;
+    }
+
+    alert('✅ Curso guardado com sucesso!');
+    bootstrap.Modal.getInstance(document.getElementById('modalCurso')).hide();
+    carregarCursos();
+}
+
+function editarCurso(id) {
+    alert('✏️ Editar curso #' + id);
+}
+
+function deletarCurso(id) {
+    if (confirm('Tem certeza que deseja eliminar este curso?')) {
+        alert('✅ Curso eliminado com sucesso!');
+        carregarCursos();
+    }
+}
+
+function logout() {
+    if (confirm('Deseja realmente sair?')) {
+        window.location.href = 'login.html';
+    }
+}
+
+// Menu toggle mobile
+document.getElementById('menuToggle').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('show');
+});
+
+// Carregar dados ao iniciar
+document.addEventListener('DOMContentLoaded', carregarCursos);
+
+</script>
+
 </body>
+
 </html>

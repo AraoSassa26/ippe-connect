@@ -1,58 +1,445 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="pt">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - IPPE CONNECT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #1a472a;
+            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            border-color: #1a472a;
+            box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.1);
+        }
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 15px;
+        }
+        .forgot-password a {
+            color: #1a472a;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .forgot-password a:hover {
+            text-decoration: underline;
+            color: #2d5a3d;
+        }
+        button.btn-login {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        button.btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+        }
+        button.btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            gap: 10px;
+            color: #ccc;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+        .divider-text {
+            font-size: 12px;
+            color: #999;
+        }
+        .social-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-social {
+            padding: 12px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-social:hover {
+            border-color: #1a472a;
+            background: #f9f9f9;
+        }
+        .btn-social i {
+            font-size: 16px;
+        }
+        .btn-google {
+            color: #ea4335;
+        }
+        .btn-facebook {
+            color: #1877f2;
+        }
+        .alert {
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .alert.show {
+            display: block;
+        }
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
-<title>Login - IPPE CONNECT</title>
+        /* MODAL POPUP */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-box {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: popUp 0.3s ease;
+        }
+        @keyframes popUp {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1a472a;
+            margin-bottom: 10px;
+        }
+        .modal-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .modal-button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .modal-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+        }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            .social-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+<body>
 
-<body class="bg-light">
+<div class="login-box">
+    <h1>🎓 IPPE CONNECT</h1>
+    <p class="subtitle">Portal de Gestão Académica</p>
+    
+    <div id="alertBox" class="alert"></div>
 
-<div class="container mt-5">
+    <form id="loginForm">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="seu@email.com" required>
+        </div>
+        <div class="form-group">
+            <label>Palavra-passe</label>
+            <input type="password" id="senha" placeholder="Digite sua palavra-passe" required>
+        </div>
+        
+        <div class="forgot-password">
+            <a href="#" onclick="abrirModalEsqueceuSenha(event)">Esqueceu a palavra-passe?</a>
+        </div>
 
-<h2 class="text-center mb-4">
-IPPE CONNECT
-</h2>
+        <button type="submit" class="btn-login" id="btnLogin">Entrar</button>
+    </form>
 
-<div class="card p-4">
+    <div class="divider">
+        <span class="divider-text">Ou continue com</span>
+    </div>
 
-<input
-id="email"
-type="email"
-class="form-control mb-3"
-placeholder="Email"
-/>
-
-<input
-id="senha"
-type="password"
-class="form-control mb-3"
-placeholder="Senha"
-/>
-
-<a href="#" onclick="recuperarSenha()">Esqueci minha senha (AINDA NÃO DISPONÍVEL) </a>
-
-<button
-class="btn btn-primary w-100"
-onclick="login()">
-
-Entrar no Portal
-
-</button>
-
+    <div class="social-buttons">
+        <button type="button" class="btn-social btn-google" onclick="loginGoogle()">
+            <span>🔵 Google</span>
+        </button>
+        <button type="button" class="btn-social btn-facebook" onclick="loginFacebook()">
+            <span>📘 Facebook</span>
+        </button>
+    </div>
 </div>
 
+<!-- MODAL POPUP -->
+<div class="modal-overlay" id="modalEsqueceuSenha">
+    <div class="modal-box">
+        <div class="modal-icon">🔒</div>
+        <div class="modal-title">Recuperação de Palavra-passe</div>
+        <div class="modal-text">
+            Esta funcionalidade ainda não está disponível.<br><br>
+            Por favor, contacte a administração em:<br>
+            <strong>admin@ippe.ao</strong>
+        </div>
+        <button class="modal-button" onclick="fecharModalEsqueceuSenha()">OK, entendi</button>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
 <script src="../js/supabaseClient.js"></script>
-<script src="../js/auth.js"></script>
+
+<script>
+
+function showAlert(msg, type) {
+    const box = document.getElementById('alertBox');
+    box.textContent = msg;
+    box.className = `alert show alert-${type}`;
+    if (type === 'success') {
+        setTimeout(() => box.classList.remove('show'), 2000);
+    }
+}
+
+// Abrir Modal Esqueceu Senha
+function abrirModalEsqueceuSenha(event) {
+    event.preventDefault();
+    document.getElementById('modalEsqueceuSenha').classList.add('show');
+}
+
+// Fechar Modal Esqueceu Senha
+function fecharModalEsqueceuSenha() {
+    document.getElementById('modalEsqueceuSenha').classList.remove('show');
+}
+
+// Fechar modal ao clicar fora
+document.getElementById('modalEsqueceuSenha').addEventListener('click', function(e) {
+    if (e.target === this) {
+        fecharModalEsqueceuSenha();
+    }
+});
+
+// Login com Google
+function loginGoogle() {
+    showAlert('⚠️ Login com Google ainda não está disponível', 'error');
+}
+
+// Login com Facebook
+function loginFacebook() {
+    showAlert('⚠️ Login com Facebook ainda não está disponível', 'error');
+}
+
+// Simular usuários com tipo
+const usuarios = {
+    'joao@ippe.ao': { tipo: 'aluno', nome: 'João Silva' },
+    'maria@ippe.ao': { tipo: 'aluno', nome: 'Maria Santos' },
+    'professor@ippe.ao': { tipo: 'docente', nome: 'Dr. Carlos Silva' },
+    'admin@ippe.ao': { tipo: 'admin', nome: 'Administrador' },
+    'financeiro@ippe.ao': { tipo: 'financeiro', nome: 'Financeiro' }
+};
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    const btnLogin = document.getElementById('btnLogin');
+    
+    if (!email || !senha) {
+        showAlert('Preencha todos os campos', 'error');
+        return;
+    }
+
+    btnLogin.disabled = true;
+    btnLogin.innerHTML = '<span class="loading-spinner"></span>Autenticando...';
+
+    try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email, password: senha
+        });
+        
+        if (error) throw error;
+        
+        // Obter tipo de usuário
+        const usuario = usuarios[email];
+        if (!usuario) {
+            throw new Error('Usuário não encontrado no sistema');
+        }
+
+        // Armazenar informações do usuário
+        localStorage.setItem('user_type', usuario.tipo);
+        localStorage.setItem('user_name', usuario.nome);
+        localStorage.setItem('user_email', email);
+        
+        showAlert('Login realizado!', 'success');
+        
+        // Redirecionar conforme tipo
+        setTimeout(() => {
+            const pages = {
+                docente: 'dashboard-professor.html',
+                admin: 'dashboard-admin.html',
+                financeiro: 'dashboard-financeiro.html',
+                aluno: 'dashboard-aluno.html'
+            };
+            window.location.href = pages[usuario.tipo];
+        }, 1500);
+        
+    } catch (err) {
+        btnLogin.disabled = false;
+        btnLogin.innerHTML = 'Entrar';
+        showAlert('Erro: ' + err.message, 'error');
+    }
+});
+
+</script>
 
 </body>
-
 </html>

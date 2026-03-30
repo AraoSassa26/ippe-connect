@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financeiro - IPPE CONNECT</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .header { background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%); color: white; padding: 15px 20px; display: flex; justify-content: space-between; }
+        .header h1 { font-size: 20px; }
+        .header button { background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat { background: white; padding: 20px; border-radius: 4px; border-left: 4px solid #1a472a; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #1a472a; }
+        .stat-label { font-size: 12px; color: #999; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 13px; }
+        thead { background: #f9f9f9; }
+        button { background: #1a472a; color: white; padding: 8px 12px; border: none; border-radius: 3px; cursor: pointer; font-size: 12px; }
+        button:hover { opacity: 0.8; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 3px; font-size: 11px; font-weight: bold; background: #d4edda; color: #155724; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+        h2 { margin: 20px 0 15px; font-size: 16px; color: #333; }
+        @media (max-width: 768px) { .stats { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>💰 Gestão Financeira</h1>
+    <button onclick="logout()">Sair</button>
+</div>
+
+<div class="container">
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">3.825.000 Kz</div>
+            <div class="stat-label">Total Arrecadado</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">900.000 Kz</div>
+            <div class="stat-label">Pendente</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">142</div>
+            <div class="stat-label">Pagamentos Efetuados</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">14</div>
+            <div class="stat-label">Em Atraso</div>
+        </div>
+    </div>
+
+    <h2>Pagamentos Pendentes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Estudante</th>
+                <th>Curso</th>
+                <th>Mês</th>
+                <th>Valor</th>
+                <th>Dias Atraso</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>João Silva</td>
+                <td>Informática de Gestão</td>
+                <td>Abril 2024</td>
+                <td>450.000 Kz</td>
+                <td>0</td>
+                <td><button>Marcar Pago</button></td>
+            </tr>
+            <tr>
+                <td>Maria Santos</td>
+                <td>Enfermagem Geral</td>
+                <td>Março 2024</td>
+                <td>450.000 Kz</td>
+                <td>21</td>
+                <td><button>Marcar Pago</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Histórico de Pagamentos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Estudante</th>
+                <th>Curso</th>
+                <th>Valor</th>
+                <th>Data</th>
+                <th>Método</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Pedro Costa</td>
+                <td>Análises Clínica</td>
+                <td>450.000 Kz</td>
+                <td>05/04/2024</td>
+                <td>Transferência</td>
+                <td><span class="badge">Confirmado</span></td>
+            </tr>
+            <tr>
+                <td>Ana Silva</td>
+                <td>Enfermagem Geral</td>
+                <td>450.000 Kz</td>
+                <td>03/04/2024</td>
+                <td>Dinheiro</td>
+                <td><span class="badge">Confirmado</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+function logout() {
+    if (confirm('Deseja sair?')) {
+        window.location.href = 'login.html';
+    }
+}
+</script>
+
+</body>
+</html>

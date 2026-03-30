@@ -1,201 +1,332 @@
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPPE CONNECT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background: #fff;
+        }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IPPE CONNECT</title>
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-brand {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            margin-left: 20px;
+            transition: all 0.3s ease;
+        }
+        .navbar a:hover {
+            color: #ffd700;
+        }
+        .btn-login {
+            background: #ffd700;
+            color: #1a472a;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .hero p {
+            font-size: 14px;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        .hero-btn {
+            display: inline-block;
+            background: #ffd700;
+            color: #1a472a;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .hero-btn:hover {
+            background: #ffed4e;
+        }
 
-<link rel="stylesheet" href="css/style.css">
+        /* CONTAINER */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
+        /* SECTION TITLE */
+        .section-title {
+            text-align: center;
+            font-size: 24px;
+            color: #1a472a;
+            margin: 40px 0 25px;
+        }
+
+        /* CURSOS */
+        .cursos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .curso-card {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .curso-card:hover {
+            border-color: #1a472a;
+            box-shadow: 0 4px 8px rgba(26, 71, 42, 0.1);
+        }
+        .curso-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .curso-card h3 {
+            font-size: 15px;
+            color: #1a472a;
+            margin-bottom: 8px;
+        }
+        .curso-card p {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* GALERIA */
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 30px 0;
+        }
+        .galeria-item {
+            height: 180px;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .galeria-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .galeria-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+        .galeria-item:hover .galeria-img {
+            opacity: 1;
+        }
+
+        /* NOTÍCIAS */
+        .noticias {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 30px 0 50px;
+        }
+        .noticia-card {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .noticia-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .noticia-img {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            object-fit: cover;
+        }
+        .noticia-content {
+            padding: 15px;
+        }
+        .noticia-date {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+        .noticia-card h3 {
+            font-size: 13px;
+            color: #1a472a;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .noticia-card p {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 40px;
+        }
+        .footer-links {
+            margin-bottom: 15px;
+        }
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .navbar { flex-wrap: wrap; gap: 10px; }
+            .navbar a { margin-left: 10px; font-size: 11px; }
+            .hero { padding: 40px 20px; }
+            .hero h1 { font-size: 24px; }
+            .hero p { font-size: 12px; }
+            .cursos { grid-template-columns: 1fr; }
+            .galeria { grid-template-columns: repeat(2, 1fr); }
+            .noticias { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-
 <body>
 
 <!-- NAVBAR -->
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-<div class="container">
-
-<a class="navbar-brand" href="#">
-IPPE CONNECT
-</a>
-
-<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
-<span class="navbar-toggler-icon"></span>
-</button>
-
-<div class="collapse navbar-collapse" id="menu">
-
-<ul class="navbar-nav ms-auto">
-
-<li class="nav-item">
-<a class="nav-link" href="#">Início</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#cursos">Cursos</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#galeria">Galeria</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#noticias">Notícias</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#sobre">Sobre</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link btn btn-primary text-white ms-2" href="pages/login.html">
-Entrar no Portal
-</a>
-</li>
-
-</ul>
-
-</div>
-
-</div>
-
+<nav class="navbar">
+    <div class="navbar-brand">🎓 IPPE</div>
+    <div>
+        <a href="#cursos">Cursos</a>
+        <a href="#galeria">Galeria</a>
+        <a href="#noticias">Notícias</a>
+        <a href="pages/login.html" class="btn-login">Entrar</a>
+    </div>
 </nav>
 
-
 <!-- HERO -->
-
-<section class="bg-primary text-white text-center p-5">
-
-<div class="container">
-
-<h1>IPPE CONNECT</h1>
-
-<p>Unindo estudantes, professores e ideias.</p>
-
-<a href="#cursos" class="btn btn-light">
-Ver Cursos
-</a>
-
-<a href="pages/login.html" class="btn btn-dark">
-Entrar no Portal
-</a>
-
-</div>
-
+<section class="hero">
+    <div class="container">
+        <h1>IPPE CONNECT</h1>
+        <p>Portal de Gestão Académica</p>
+        <a href="pages/login.html" class="hero-btn">Aceder ao Portal</a>
+    </div>
 </section>
-
 
 <!-- CURSOS -->
-
-<section id="cursos" class="p-5">
-
 <div class="container">
+    <h2 class="section-title" id="cursos">Nossos Cursos</h2>
+    <div class="cursos">
+        <div class="curso-card">
+            <div class="curso-icon">💻</div>
+            <h3>Informática de Gestão</h3>
+            <p>Programação, sistemas e gestão de dados</p>
+        </div>
+        <div class="curso-card">
+            <div class="curso-icon">⚕️</div>
+            <h3>Enfermagem Geral</h3>
+            <p>Formação em cuidados de saúde</p>
+        </div>
+        <div class="curso-card">
+            <div class="curso-icon">🔬</div>
+            <h3>Análises Clínica</h3>
+            <p>Análises laboratoriais e diagnósticos</p>
+        </div>
+    </div>
 
-<h2 class="text-center mb-4">Cursos</h2>
+    <!-- GALERIA -->
+    <h2 class="section-title" id="galeria">Galeria</h2>
+    <div class="galeria" id="galeria-grid">
+        <div class="galeria-item"><img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&h=300&fit=crop" class="galeria-img" alt="Biblioteca"></div>
+        <div class="galeria-item"><img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=300&fit=crop" class="galeria-img" alt="Laboratório"></div>
+        <div class="galeria-item"><img 
+        <div class="galeria-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" class="galeria-img" alt="Auditório"></div>
+    </div>
 
-<div class="row" id="listaCursos">
-
+    <!-- NOTÍCIAS -->
+    <h2 class="section-title" id="noticias">Notícias</h2>
+    <div class="noticias" id="noticias-grid">
+        <div class="noticia-card">
+            <div class="noticia-img"></div>
+            <div class="noticia-content">
+                <div class="noticia-date">15 Março, 2024</div>
+                <h3>Inscrições Abertas 2024/2025</h3>
+                <p>As inscrições para o próximo ano lectivo já estão abertas. Acesse o portal.</p>
+            </div>
+        </div>
+        <div class="noticia-card">
+            <div class="noticia-img"></div>
+            <div class="noticia-content">
+                <div class="noticia-date">10 Março, 2024</div>
+                <h3>Novo Laboratório Inaugurado</h3>
+                <p>Laboratório de Análises Clínicas com equipamentos modernos.</p>
+            </div>
+        </div>
+        <div class="noticia-card">
+            <div class="noticia-img"></div>
+            <div class="noticia-content">
+                <div class="noticia-date">01 Março, 2024</div>
+                <h3>Bolsas de Estudo Disponíveis</h3>
+                <p>IPPE oferece bolsas para estudantes com bom desempenho.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
-</div>
-
-</section>
-
-
-<!-- GALERIA -->
-
-<section id="galeria" class="bg-light p-5">
-
-<div class="container">
-
-<h2 class="text-center mb-4">Galeria da Instituição</h2>
-
-<div class="row">
-
-<div class="col-md-4">
-<img src="assets/ft01.jpg" class="img-fluid rounded">
-</div>
-
-<div class="col-md-4">
-<img src="assets/ft02.jpg" class="img-fluid rounded">
-</div>
-
-<div class="col-md-4">
-<img src="assets/ft03.jpg" class="img-fluid rounded">
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- NOTÍCIAS -->
-
-<section id="noticias" class="p-5">
-
-<div class="container">
-
-<h2 class="text-center mb-4">Notícias</h2>
-<h3>Início das Provas do II Trimestre</h3>
-<p>Começaram hoje, 16 de março de 2026, as provas trimestrais do II trimestre. As avaliações irão decorrer até 25 de março, conforme o calendário acadêmico.
-
-Deseja-se bom desempenho e muito sucesso a todos os estudantes durante este período de avaliações. </p>
-
-
-<div id="listaNoticias" class="row">
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- SOBRE -->
-
-<section id="sobre" class="bg-light p-5">
-
-<div class="container text-center">
-
-<h2>Sobre a Instituição</h2>
-
-<p>
-
-O Instituto Politécnico Privado Epatuluko é uma instituição dedicada
-à formação técnica e profissional de qualidade, preparando estudantes
-para os desafios do mercado de trabalho.
-
-</p>
-
-</div>
-
-</section>
-
-
-<!-- RODAPÉ -->
-
-<footer class="bg-dark text-white text-center p-3">
-
-<p>
-© 2026 IPPE CONNECT
-</p>
-
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-links">
+        <a href="#">Sobre</a>
+        <a href="#">Contacto</a>
+        <a href="#">Privacidade</a>
+    </div>
+    <p>© 2024 IPPE CONNECT. Todos os direitos reservados.</p>
 </footer>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
-<script src="js/supabaseClient.js"></script>
-<script src="js/site.js"></script>
-
 </body>
-
 </html>
