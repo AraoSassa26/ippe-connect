@@ -1,0 +1,30 @@
+# IPPE CONNECT 🎓
+
+Portal Web de Gerenciamento Acadêmico do Instituto Politécnico Privado Epatuluko
+
+## 📋 Descrição
+
+Sistema web para gerenciamento acadêmico com funcionalidades de:
+- 📚 Gestão de cursos
+- 📝 Registro de notas com cálculo automático
+- 📰 Publicação de notícias
+- 👥 Gestão de alunos e disciplinas
+
+## 🚀 Funcionalidades
+
+### ✅ Implementadas
+- [x] Sistema de notas com cálculos automáticos (CT1, CT2, CT3, CF, CA)
+- [x] Integração com Supabase (banco de dados em nuvem)
+- [x] Interface responsiva (mobile-friendly)
+- [x] Validação de dados de entrada
+- [x] Tratamento de erros robusto
+- [x] Feedback visual ao usuário
+- [x] Design moderno com animações
+
+### 📋 Em Progresso
+- [ ] Autenticação e Login
+- [ ] Mais páginas admin
+- [ ] Testes unitários
+- [ ] Deploy em produção
+
+## 📁 Estrutura do Projeto
