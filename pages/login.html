@@ -142,9 +142,6 @@
             border-color: #1a472a;
             background: #f9f9f9;
         }
-        .btn-social i {
-            font-size: 16px;
-        }
         .btn-google {
             color: #ea4335;
         }
@@ -196,7 +193,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* MODAL POPUP */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -321,7 +317,6 @@
     </div>
 </div>
 
-<!-- MODAL POPUP -->
 <div class="modal-overlay" id="modalEsqueceuSenha">
     <div class="modal-box">
         <div class="modal-icon">🔒</div>
@@ -335,7 +330,49 @@
     </div>
 </div>
 
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
+<script>
+
+function showAlert(msg, type) {
+    const box = document.getElementById('alertBox');
+    box.textContent = msg;
+    box.className = `alert show alert-${type}`;
+    if (type === 'success') {
+        setTimeout(() => box.classList.remove('show'), 2000);
+    }
+}
+
+function abrirModalEsqueceuSenha(event) {
+    event.preventDefault();
+    document.getElementById('modalEsqueceuSenha').classList.add('show');
+}
+
+function fecharModalEsqueceuSenha() {
+    document.getElementById('modalEsqueceuSenha').classList.remove('show');
+}
+
+document.getElementById('modalEsqueceuSenha').addEventListener('click', function(e) {
+    if (e.target === this) {
+        fecharModalEsqueceuSenha();
+    }
+});
+
+function loginGoogle() {
+    showAlert('⚠️ Login com Google ainda não está disponível', 'error');
+}
+
+function loginFacebook() {
+    showAlert('⚠️ Login com Facebook ainda não está disponível', 'error');
+}
+
+const usuarios = {
+    'joao@ippe.ao': { tipo: 'aluno', nome: 'João Silva', senha: '123' },
+    'maria@ippe.ao': { tipo: 'aluno', nome: 'Maria Santos', senha: '123' },
+    'professor@ippe.ao': { tipo: 'professor', nome: 'Dr. Carlos Silva', senha: '123' },
+    'admin@ippe.ao': { tipo: 'admin', nome: 'Administrador', senha: '123' },
+    'financeiro@ippe.ao': { tipo: 'financeiro', nome: 'Financeiro', senha: '123' }
+};
+
+document.getElementById('loginForm').addEventListener('submit', (e) => {
     e.preventDefault();
     
     const email = document.getElementById('email').value;
@@ -350,43 +387,29 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     btnLogin.disabled = true;
     btnLogin.innerHTML = '<span class="loading-spinner"></span>Autenticando...';
 
-    // ❌ REMOVA ISTO:
-    // try {
-    //     const { data, error } = await supabaseClient.auth.signInWithPassword({
-    //         email, password: senha
-    //     });
-    //     if (error) throw error;
-    // }
-
-    // ✅ ADICIONE ISTO:
-    const usuarios = {
-        'joao@ippe.ao': { tipo: 'aluno', nome: 'João Silva', senha: '123' },
-        'maria@ippe.ao': { tipo: 'aluno', nome: 'Maria Santos', senha: '123' },
-        'professor@ippe.ao': { tipo: 'docente', nome: 'Dr. Carlos Silva', senha: '123' },
-        'admin@ippe.ao': { tipo: 'admin', nome: 'Administrador', senha: '123' },
-        'financeiro@ippe.ao': { tipo: 'financeiro', nome: 'Financeiro', senha: '123' }
-    };
-
-    const usuario = usuarios[email];
-    
-    if (!usuario || usuario.senha !== senha) {
-        btnLogin.disabled = false;
-        btnLogin.innerHTML = 'Entrar';
-        showAlert('Email ou palavra-passe incorretos', 'error');
-        return;
-    }
-
-    // Armazenar informações do usuário
-    localStorage.setItem('user_type', usuario.tipo);
-    localStorage.setItem('user_name', usuario.nome);
-    localStorage.setItem('user_email', email);
-    
-    showAlert('Login realizado!', 'success');
-    
-    // Redirecionar conforme tipo
     setTimeout(() => {
-        window.location.href = `dashboard-${usuario.tipo}.html`;
-    }, 1500);
+        const usuario = usuarios[email];
+        
+        if (!usuario || usuario.senha !== senha) {
+            btnLogin.disabled = false;
+            btnLogin.innerHTML = 'Entrar';
+            showAlert('Email ou palavra-passe incorretos', 'error');
+            return;
+        }
+
+        localStorage.setItem('user_type', usuario.tipo);
+        localStorage.setItem('user_name', usuario.nome);
+        localStorage.setItem('user_email', email);
+        
+        showAlert('Login realizado!', 'success');
+        
+        setTimeout(() => {
+            window.location.href = `dashboard-${usuario.tipo}.html`;
+        }, 1500);
+    }, 800);
 });
+
+</script>
+
 </body>
 </html>

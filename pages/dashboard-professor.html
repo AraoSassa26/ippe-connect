@@ -3,224 +3,669 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professor - IPPE CONNECT</title>
+    <title>Portal Professor - IPPE CONNECT</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; }
-        .header {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* NAVBAR */
+        .navbar {
             background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
-            color: white;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .header h1 { font-size: 20px; }
-        .header button {
+        .navbar-brand {
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .navbar-right span {
+            color: white;
+            font-size: 12px;
+        }
+        .navbar button {
             background: rgba(255,255,255,0.2);
             border: 1px solid white;
             color: white;
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 11px;
+            transition: all 0.3s ease;
         }
-        .nav {
+        .navbar button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
             background: white;
-            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            width: 200px;
             padding: 0;
-            display: flex;
-            flex-wrap: wrap;
+            position: fixed;
+            left: 0;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
         }
-        .nav button {
-            padding: 12px 15px;
-            border: none;
-            background: none;
-            cursor: pointer;
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
             color: #666;
-            border-bottom: 3px solid transparent;
-            font-weight: bold;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
             font-size: 13px;
+            font-weight: bold;
         }
-        .nav button.active {
+        .sidebar a:hover, .sidebar a.active {
+            background: #f9f9f9;
             color: #1a472a;
-            border-bottom-color: #1a472a;
+            border-left-color: #1a472a;
         }
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .content { display: none; }
-        .content.active { display: block; }
+
+        /* MAIN */
+        .main {
+            margin-left: 200px;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+        }
+
+        /* INFO DO PROFESSOR */
+        .info-professor {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-top: 4px solid #1a472a;
+        }
+        .info-header {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+        }
+        .info-texto h2 {
+            font-size: 18px;
+            color: #1a472a;
+            margin-bottom: 5px;
+        }
+        .info-texto p {
+            font-size: 12px;
+            color: #666;
+            margin: 3px 0;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .info-item {
+            text-align: center;
+        }
+        .info-item-label {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+        .info-item-value {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1a472a;
+        }
+
+        /* CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
         .card {
             background: white;
             padding: 20px;
-            margin-bottom: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #1a472a;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .card-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a472a;
+            margin-bottom: 5px;
+        }
+        .card-label {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* SEÇÕES */
+        .section {
+            background: white;
+            padding: 20px;
             border-radius: 4px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
-        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 13px; }
-        thead { background: #f9f9f9; }
-        tr:hover { background: #f9f9f9; }
-        input, select, textarea {
+        .section h2 {
+            font-size: 16px;
+            color: #1a472a;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* TABELA */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        thead {
+            background: #f9f9f9;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* BADGE */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: bold;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 8px;
-            margin: 8px 0;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 13px;
-        }
-        button {
-            background: #1a472a;
-            color: white;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
             font-size: 12px;
-            margin-top: 10px;
+            font-family: Arial, sans-serif;
         }
-        button:hover { opacity: 0.8; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 12px; }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+        }
+
+        /* GRID 2 COLUNAS */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* HIDE */
+        .hide {
+            display: none;
+        }
+
         @media (max-width: 768px) {
-            .nav { gap: 0; }
-            .nav button { padding: 10px 12px; font-size: 11px; }
+            .sidebar {
+                width: 150px;
+            }
+            .main {
+                margin-left: 150px;
+                padding: 15px;
+            }
+            .cards {
+                grid-template-columns: 1fr;
+            }
+            .info-header {
+                grid-template-columns: 1fr;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .sidebar a {
+                padding: 12px 15px;
+                font-size: 11px;
+            }
+        }
+        @media (max-width: 480px) {
+            .sidebar {
+                display: none;
+            }
+            .main {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>👨‍🏫 Professor</h1>
-    <button onclick="logout()">Sair</button>
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="navbar-brand">👨‍🏫 IPPE CONNECT</div>
+    <div class="navbar-right">
+        <span id="userGreeting">Bem-vindo!</span>
+        <button onclick="logout()">Sair</button>
+    </div>
 </div>
 
-<div class="nav">
-    <button class="active" onclick="switchTab('turmas')">Minhas Turmas</button>
-    <button onclick="switchTab('notas')">Lançar Notas</button>
-    <button onclick="switchTab('frequencia')">Frequência</button>
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <a href="#" class="menu-item active" onclick="showSection('home', event)">🏠 Início</a>
+    <a href="#" class="menu-item" onclick="showSection('turmas', event)">👥 Minhas Turmas</a>
+    <a href="#" class="menu-item" onclick="showSection('notas', event)">📝 Lançar Notas</a>
+    <a href="#" class="menu-item" onclick="showSection('frequencia', event)">📋 Frequência</a>
+    <a href="#" class="menu-item" onclick="showSection('materiais', event)">📁 Materiais</a>
 </div>
 
-<div class="container">
+<!-- MAIN -->
+<div class="main">
+    <div class="container">
 
-    <!-- TURMAS -->
-    <div id="turmas" class="content active">
-        <div class="card">
-            <h2>Minhas Turmas</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Turma</th>
-                        <th>Disciplina</th>
-                        <th>Ano</th>
-                        <th>Estudantes</th>
-                        <th>Horário</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>IG-10-A</td>
-                        <td>Programação I</td>
-                        <td>10º</td>
-                        <td>35</td>
-                        <td>Seg/Qua 07:30</td>
-                    </tr>
-                    <tr>
-                        <td>IG-11-A</td>
-                        <td>Programação II</td>
-                        <td>11º</td>
-                        <td>32</td>
-                        <td>Ter/Qui 10:30</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- HOME (DEFAULT) -->
+        <div id="home" class="section-container">
+            
+            <!-- INFO DO PROFESSOR -->
+            <div class="info-professor">
+                <div class="info-header">
+                    <div class="avatar">👨‍🏫</div>
+                    <div class="info-texto">
+                        <h2 id="nomeProfessor">Dr. Bernardo Lino</h2>
+                        <p id="emailProfessor">bernardo@ippe.ao</p>
+                        <p id="departamentoProfessor">Departamento: Informática</p>
+                        <p id="especialidadeProfessor">Especialidade: Programação</p>
+                    </div>
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-item-label">Status</div>
+                        <div class="info-item-value">✓ Ativo</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-item-label">Turmas</div>
+                        <div class="info-item-value">2</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-item-label">Total Alunos</div>
+                        <div class="info-item-value">67</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARDS DE RESUMO -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-value">67</div>
+                    <div class="card-label">Estudantes</div>
+                </div>
+                <div class="card">
+                    <div class="card-value">2</div>
+                    <div class="card-label">Turmas Ativas</div>
+                </div>
+                <div class="card">
+                    <div class="card-value">24</div>
+                    <div class="card-label">Aulas Lectivas</div>
+                </div>
+                <div class="card">
+                    <div class="card-value">18</div>
+                    <div class="card-label">Notas Lançadas</div>
+                </div>
+            </div>
+
+            <!-- TURMAS ATIVAS -->
+            <div class="section">
+                <h2>Turmas Ativas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Turma</th>
+                            <th>Disciplina</th>
+                            <th>Ano</th>
+                            <th>Estudantes</th>
+                            <th>Horário</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>IG-10-A</td>
+                            <td>Programação I</td>
+                            <td>10º</td>
+                            <td>35</td>
+                            <td>Seg/Qua 08:00</td>
+                        </tr>
+                        <tr>
+                            <td>IG-11-A</td>
+                            <td>Programação II</td>
+                            <td>11º</td>
+                            <td>32</td>
+                            <td>Ter/Qui 10:30</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ESTUDANTES COM BAIXA FREQUÊNCIA -->
+            <div class="section">
+                <h2>⚠️ Alunos com Baixa Frequência</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Nome</th>
+                            <th>Turma</th>
+                            <th>Presença</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#2024015</td>
+                            <td>Rafael Costa</td>
+                            <td>IG-10-A</td>
+                            <td>70%</td>
+                        </tr>
+                        <tr>
+                            <td>#2024028</td>
+                            <td>Juliana Silva</td>
+                            <td>IG-11-A</td>
+                            <td>75%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <!-- NOTAS -->
-    <div id="notas" class="content">
-        <div class="card">
-            <h2>Lançar Notas</h2>
-            <form>
-                <div class="form-group">
-                    <label>Turma</label>
-                    <select>
-                        <option>IG-10-A - Programação I</option>
-                        <option>IG-11-A - Programação II</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Período</label>
-                    <select>
-                        <option>1º Período</option>
-                        <option>2º Período</option>
-                    </select>
-                </div>
-                <button>📤 Importar (Excel)</button>
-            </form>
-            <br>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Matrícula</th>
-                        <th>Estudante</th>
-                        <th>Nota</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#2024001</td>
-                        <td>João Silva</td>
-                        <td><input type="number" value="16" style="width:60px;"></td>
-                        <td><button>Guardar</button></td>
-                    </tr>
-                    <tr>
-                        <td>#2024002</td>
-                        <td>Maria Santos</td>
-                        <td><input type="number" value="14" style="width:60px;"></td>
-                        <td><button>Guardar</button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- TURMAS -->
+        <div id="turmas" class="section-container hide">
+            <div class="section">
+                <h2>Gestão de Turmas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Turma</th>
+                            <th>Disciplina</th>
+                            <th>Ano</th>
+                            <th>Estudantes</th>
+                            <th>Horário</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>IG-10-A</td>
+                            <td>Programação I</td>
+                            <td>10º</td>
+                            <td>35</td>
+                            <td>Seg/Qua 08:00</td>
+                            <td><button class="btn-submit" style="padding: 6px 12px;">Ver</button></td>
+                        </tr>
+                        <tr>
+                            <td>IG-11-A</td>
+                            <td>Programação II</td>
+                            <td>11º</td>
+                            <td>32</td>
+                            <td>Ter/Qui 10:30</td>
+                            <td><button class="btn-submit" style="padding: 6px 12px;">Ver</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <!-- FREQUÊNCIA -->
-    <div id="frequencia" class="content">
-        <div class="card">
-            <h2>Marcar Frequência</h2>
-            <form>
-                <div class="form-group">
-                    <label>Data da Aula</label>
-                    <input type="date">
+        <!-- LANÇAR NOTAS -->
+        <div id="notas" class="section-container hide">
+            <div class="section">
+                <h2>Lançar Notas</h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Turma</label>
+                        <select>
+                            <option>IG-10-A - Programação I</option>
+                            <option>IG-11-A - Programação II</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Período</label>
+                        <select>
+                            <option>1º Período</option>
+                            <option>2º Período</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Turma</label>
-                    <select>
-                        <option>IG-10-A</option>
-                        <option>IG-11-A</option>
-                    </select>
-                </div>
-                <button>✓ Marcar Frequência</button>
-            </form>
+                <button class="btn-submit">📤 Importar (Excel)</button>
+            </div>
+
+            <div class="section">
+                <h2>Notas da Turma IG-10-A</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Estudante</th>
+                            <th>Nota</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#2024001</td>
+                            <td>João Silva</td>
+                            <td><input type="number" min="0" max="20" value="16" style="width: 60px; padding: 5px;"></td>
+                            <td><span class="badge">Aprovado</span></td>
+                        </tr>
+                        <tr>
+                            <td>#2024002</td>
+                            <td>Maria Santos</td>
+                            <td><input type="number" min="0" max="20" value="14" style="width: 60px; padding: 5px;"></td>
+                            <td><span class="badge">Aprovado</span></td>
+                        </tr>
+                        <tr>
+                            <td>#2024003</td>
+                            <td>Pedro Costa</td>
+                            <td><input type="number" min="0" max="20" value="9" style="width: 60px; padding: 5px;"></td>
+                            <td><span class="badge">Aprovado</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button class="btn-submit">💾 Guardar Notas</button>
+            </div>
         </div>
-    </div>
 
+        <!-- FREQUÊNCIA -->
+        <div id="frequencia" class="section-container hide">
+            <div class="section">
+                <h2>Registar Frequência</h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Data da Aula</label>
+                        <input type="date">
+                    </div>
+                    <div class="form-group">
+                        <label>Turma</label>
+                        <select>
+                            <option>IG-10-A</option>
+                            <option>IG-11-A</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-submit">✓ Marcar Frequência</button>
+            </div>
+
+            <div class="section">
+                <h2>Últimos Registos de Frequência</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Turma</th>
+                            <th>Presentes</th>
+                            <th>Faltas</th>
+                            <th>Taxa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>03/04/2024</td>
+                            <td>IG-10-A</td>
+                            <td>34</td>
+                            <td>1</td>
+                            <td>97%</td>
+                        </tr>
+                        <tr>
+                            <td>02/04/2024</td>
+                            <td>IG-11-A</td>
+                            <td>31</td>
+                            <td>1</td>
+                            <td>97%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MATERIAIS -->
+        <div id="materiais" class="section-container hide">
+            <div class="section">
+                <h2>Meus Materiais de Aula</h2>
+                <div class="form-group">
+                    <label>Adicionar Novo Material</label>
+                    <input type="file">
+                </div>
+                <button class="btn-submit">📤 Enviar Material</button>
+            </div>
+
+            <div class="section">
+                <h2>Materiais Uploadados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Arquivo</th>
+                            <th>Turma</th>
+                            <th>Data</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>📄 Aula 01 - Intro Programação</td>
+                            <td>IG-10-A</td>
+                            <td>15/01/2024</td>
+                            <td><button class="btn-submit" style="padding: 6px 12px; background: #dc3545;">Excluir</button></td>
+                        </tr>
+                        <tr>
+                            <td>📄 Exercícios Práticos</td>
+                            <td>IG-10-A</td>
+                            <td>10/01/2024</td>
+                            <td><button class="btn-submit" style="padding: 6px 12px; background: #dc3545;">Excluir</button></td>
+                        </tr>
+                        <tr>
+                            <td>📄 Aula 02 - Variáveis</td>
+                            <td>IG-11-A</td>
+                            <td>20/02/2024</td>
+                            <td><button class="btn-submit" style="padding: 6px 12px; background: #dc3545;">Excluir</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <script>
 
-function switchTab(tab) {
-    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-    document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+function loadProfessor() {
+    const userName = localStorage.getItem('user_name') || 'Dr. Carlos Silva';
+    const userEmail = localStorage.getItem('user_email') || 'carlos@ippe.ao';
     
-    document.getElementById(tab).classList.add('active');
-    event.target.classList.add('active');
+    document.getElementById('userGreeting').textContent = `Bem-vindo, ${userName}!`;
+    document.getElementById('nomeProfessor').textContent = userName;
+    document.getElementById('emailProfessor').textContent = userEmail;
+}
+
+function showSection(section, e) {
+    e.preventDefault();
+    
+    document.querySelectorAll('.section-container').forEach(el => el.classList.add('hide'));
+    document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+    
+    document.getElementById(section).classList.remove('hide');
+    event.target.closest('.menu-item').classList.add('active');
 }
 
 function logout() {
     if (confirm('Deseja sair?')) {
-        window.location.href = 'login.html';
+        localStorage.clear();
+        window.location.href = './login.html';
     }
 }
+
+document.addEventListener('DOMContentLoaded', loadProfessor);
 
 </script>
 

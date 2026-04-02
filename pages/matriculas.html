@@ -1,46 +1,767 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Matrículas - IPPE CONNECT</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Matrículas - IPPE CONNECT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-brand {
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .navbar-right span {
+            color: white;
+            font-size: 12px;
+        }
+        .navbar button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.3s ease;
+        }
+        .navbar button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* MAIN */
+        .main {
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .page-header h1 {
+            font-size: 24px;
+            color: #1a472a;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 0;
+            background: white;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+            border-radius: 4px 4px 0 0;
+        }
+        .tab-button {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            color: #1a472a;
+            border-bottom-color: #1a472a;
+        }
+
+        /* SEÇÕES */
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 16px;
+            color: #1a472a;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* TABELA */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        thead {
+            background: #f9f9f9;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* BADGE */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: bold;
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* BOTÕES */
+        .btn {
+            padding: 6px 12px;
+            background: #1a472a;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-add {
+            background: #1a472a;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-add:hover {
+            opacity: 0.8;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+        }
+
+        /* GRID 2 */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* GRID 3 */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+            overflow-y: auto;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: popUp 0.3s ease;
+            margin: 20px 0;
+        }
+        @keyframes popUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h2 {
+            font-size: 16px;
+            color: #1a472a;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* TAB CONTENT */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .tabs {
+                flex-wrap: wrap;
+            }
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+            th, td {
+                padding: 8px;
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
-<h2>Matrículas</h2>
 
-<button class="btn btn-success mb-3" onclick="abrirModal()">Nova Matrícula</button>
-
-<table class="table table-striped">
-<thead>
-<tr><th>Aluno</th><th>Turma</th><th>Data</th><th>Status</th><th>Ações</th></tr>
-</thead>
-<tbody id="tabelaMatriculas"></tbody>
-</table>
 </div>
 
-<div class="modal" id="modalMatricula">
-<div class="modal-dialog">
-<div class="modal-content p-3">
-<h5>Adicionar Matrícula</h5>
-<select id="alunoMatricula" class="form-control mb-2"></select>
-<select id="turmaMatricula" class="form-control mb-2"></select>
-<input type="date" id="dataMatricula" class="form-control mb-2">
-<select id="statusMatricula" class="form-control mb-2">
-  <option value="ativa">Ativa</option>
-  <option value="inativa">Inativa</option>
-</select>
-<button class="btn btn-primary" onclick="adicionarMatricula()">Salvar</button>
-<button class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
-</div>
-</div>
+<!-- MAIN -->
+<div class="main">
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="page-header">
+            <h1>📝 Gestão de Matrículas</h1>
+            <button class="btn-add" onclick="abrirModalNovaMatricula()">+ Nova Matrícula</button>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="mudarAba('ativas', event)">✓ Matrículas Ativas</button>
+            <button class="tab-button" onclick="mudarAba('pendentes', event)">⏳ Pendentes</button>
+            <button class="tab-button" onclick="mudarAba('renovacao', event)">🔄 Renovação</button>
+            <button class="tab-button" onclick="mudarAba('canceladas', event)">✕ Canceladas</button>
+        </div>
+
+        <!-- ABA 1: MATRÍCULAS ATIVAS -->
+        <div id="ativas" class="tab-content active">
+            <div class="section">
+                <h2>Matrículas Ativas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Estudante</th>
+                            <th>Curso</th>
+                            <th>Turma</th>
+                            <th>Ano</th>
+                            <th>Data Matrícula</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#2024001</td>
+                            <td>João Silva</td>
+                            <td>Informática de Gestão</td>
+                            <td>IG-10-A</td>
+                            <td>10º</td>
+                            <td>01/09/2025</td>
+                            <td><span class="badge">Ativo</span></td>
+                            <td>
+                                <button class="btn" onclick="abrirModalVerMatricula(1)">Ver</button>
+                                <button class="btn" onclick="abrirModalEditarMatricula(1)">Editar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#2024002</td>
+                            <td>Maria Santos</td>
+                            <td>Enfermagem Geral</td>
+                            <td>EG-10-A</td>
+                            <td>10º</td>
+                            <td>05/09/2025</td>
+                            <td><span class="badge">Ativo</span></td>
+                            <td>
+                                <button class="btn" onclick="abrirModalVerMatricula(2)">Ver</button>
+                                <button class="btn" onclick="abrirModalEditarMatricula(2)">Editar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#2024003</td>
+                            <td>Pedro Costa</td>
+                            <td>Análises Clínica</td>
+                            <td>AC-10-A</td>
+                            <td>10º</td>
+                            <td>08/09/2025</td>
+                            <td><span class="badge">Ativo</span></td>
+                            <td>
+                                <button class="btn" onclick="abrirModalVerMatricula(3)">Ver</button>
+                                <button class="btn" onclick="abrirModalEditarMatricula(3)">Editar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA 2: MATRÍCULAS PENDENTES -->
+        <div id="pendentes" class="tab-content">
+            <div class="section">
+                <h2>Matrículas Pendentes de Confirmação</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Estudante</th>
+                            <th>Curso</th>
+                            <th>Data Solicitação</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#2024015</td>
+                            <td>Ana Silva</td>
+                            <td>Informática de Gestão</td>
+                            <td>28/03/2024</td>
+                            <td><span class="badge-pending">Pendente</span></td>
+                            <td>
+                                <button class="btn btn-success" onclick="aprovarMatricula(15)">✓ Aprovar</button>
+                                <button class="btn btn-danger" onclick="rejeitarMatricula(15)">✕ Rejeitar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#2024016</td>
+                            <td>Carlos Mendes</td>
+                            <td>Enfermagem Geral</td>
+                            <td>25/03/2024</td>
+                            <td><span class="badge-pending">Pendente</span></td>
+                            <td>
+                                <button class="btn btn-success" onclick="aprovarMatricula(16)">✓ Aprovar</button>
+                                <button class="btn btn-danger" onclick="rejeitarMatricula(16)">✕ Rejeitar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA 3: RENOVAÇÃO -->
+        <div id="renovacao" class="tab-content">
+            <div class="section">
+                <h2>Matrículas para Renovar</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Estudante</th>
+                            <th>Curso Atual</th>
+                            <th>Próximo Ano</th>
+                            <th>Data Vencimento</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#2024001</td>
+                            <td>João Silva</td>
+                            <td>IG-10-A</td>
+                            <td>IG-11-A</td>
+                            <td>30/06/2024</td>
+                            <td>
+                                <button class="btn btn-success" onclick="renovarMatricula(1)">🔄 Renovar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#2024002</td>
+                            <td>Maria Santos</td>
+                            <td>EG-10-A</td>
+                            <td>EG-11-A</td>
+                            <td>30/06/2024</td>
+                            <td>
+                                <button class="btn btn-success" onclick="renovarMatricula(2)">🔄 Renovar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA 4: CANCELADAS -->
+        <div id="canceladas" class="tab-content">
+            <div class="section">
+                <h2>Matrículas Canceladas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Estudante</th>
+                            <th>Curso</th>
+                            <th>Data Cancelamento</th>
+                            <th>Motivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#2024010</td>
+                            <td>Lucas Ferreira</td>
+                            <td>Informática de Gestão</td>
+                            <td>15/03/2024</td>
+                            <td>Pedido do estudante</td>
+                        </tr>
+                        <tr>
+                            <td>#2024011</td>
+                            <td>Sofia Costa</td>
+                            <td>Enfermagem Geral</td>
+                            <td>20/02/2024</td>
+                            <td>Transferência</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="../js/supabaseClient.js"></script>
-<script src="../js/matriculas.js"></script>
+<!-- MODAL NOVA MATRÍCULA -->
+<div class="modal" id="modalNovaMatricula">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Registar Nova Matrícula</h2>
+            <button class="close-modal" onclick="fecharModal('modalNovaMatricula')">×</button>
+        </div>
+        <form onsubmit="novaMatricula(event)">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Nome do Estudante</label>
+                    <input type="text" placeholder="Nome completo" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="email@ippe.ao" required>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Curso</label>
+                    <select required>
+                        <option>Informática de Gestão</option>
+                        <option>Enfermagem Geral</option>
+                        <option>Análises Clínica</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Turma</label>
+                    <select required>
+                        <option>IG-10-A</option>
+                        <option>IG-10-B</option>
+                        <option>IG-11-A</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Data de Nascimento</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefone</label>
+                    <input type="tel" placeholder="+244 900 000 000" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Endereço</label>
+                <input type="text" placeholder="Endereço completo" required>
+            </div>
+            <button type="submit" class="btn-submit">✓ Registar Matrícula</button>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL EDITAR MATRÍCULA -->
+<div class="modal" id="modalEditarMatricula">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Editar Matrícula</h2>
+            <button class="close-modal" onclick="fecharModal('modalEditarMatricula')">×</button>
+        </div>
+        <form onsubmit="editarMatricula(event)">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Nome do Estudante</label>
+                    <input type="text" id="editNomeEstudante" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="editEmailEstudante" required>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Curso</label>
+                    <select id="editCurso" required>
+                        <option>Informática de Gestão</option>
+                        <option>Enfermagem Geral</option>
+                        <option>Análises Clínica</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Turma</label>
+                    <select id="editTurma" required>
+                        <option>IG-10-A</option>
+                        <option>IG-10-B</option>
+                        <option>IG-11-A</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Telefone</label>
+                <input type="tel" id="editTelefone" required>
+            </div>
+            <div class="form-group">
+                <label>Endereço</label>
+                <input type="text" id="editEndereco" required>
+            </div>
+            <button type="submit" class="btn-submit">✓ Guardar Alterações</button>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL VER MATRÍCULA -->
+<div class="modal" id="modalVerMatricula">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Detalhes da Matrícula</h2>
+            <button class="close-modal" onclick="fecharModal('modalVerMatricula')">×</button>
+        </div>
+        <div id="detalhesMatricula"></div>
+    </div>
+</div>
+
+<script>
+
+function loadPage() {
+    const userName = localStorage.getItem('user_name') || 'Administrador';
+    document.getElementById('userGreeting').textContent = `Bem-vindo, ${userName}!`;
+}
+
+function voltar() {
+    window.history.back();
+}
+
+function logout() {
+    if (confirm('Deseja sair?')) {
+        localStorage.clear();
+        window.location.href = './login.html';
+    }
+}
+
+// MUDAR ABA
+function mudarAba(aba, e) {
+    e.preventDefault();
+    
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+    
+    document.getElementById(aba).classList.add('active');
+    event.target.classList.add('active');
+}
+
+// MODAIS
+function abrirModalNovaMatricula() {
+    document.getElementById('modalNovaMatricula').classList.add('show');
+}
+
+function abrirModalEditarMatricula(id) {
+    const estudantes = {
+        1: { nome: 'João Silva', email: 'joao@ippe.ao', telefone: '+244 900 123 456', endereco: 'Luanda' },
+        2: { nome: 'Maria Santos', email: 'maria@ippe.ao', telefone: '+244 900 234 567', endereco: 'Luanda' },
+        3: { nome: 'Pedro Costa', email: 'pedro@ippe.ao', telefone: '+244 900 345 678', endereco: 'Luanda' }
+    };
+    const estudante = estudantes[id];
+    document.getElementById('editNomeEstudante').value = estudante.nome;
+    document.getElementById('editEmailEstudante').value = estudante.email;
+    document.getElementById('editTelefone').value = estudante.telefone;
+    document.getElementById('editEndereco').value = estudante.endereco;
+    document.getElementById('modalEditarMatricula').classList.add('show');
+}
+
+function abrirModalVerMatricula(id) {
+    const detalhes = {
+        1: `<p><strong>Matrícula:</strong> #2024001</p>
+             <p><strong>Nome:</strong> João Silva</p>
+             <p><strong>Email:</strong> joao@ippe.ao</p>
+             <p><strong>Curso:</strong> Informática de Gestão</p>
+             <p><strong>Turma:</strong> IG-10-A</p>
+             <p><strong>Data de Matrícula:</strong> 01/01/2024</p>
+             <p><strong>Status:</strong> Ativo</p>`,
+        2: `<p><strong>Matrícula:</strong> #2024002</p>
+             <p><strong>Nome:</strong> Maria Santos</p>
+             <p><strong>Email:</strong> maria@ippe.ao</p>
+             <p><strong>Curso:</strong> Enfermagem Geral</p>
+             <p><strong>Turma:</strong> EG-10-A</p>
+             <p><strong>Data de Matrícula:</strong> 05/01/2024</p>
+             <p><strong>Status:</strong> Ativo</p>`,
+        3: `<p><strong>Matrícula:</strong> #2024003</p>
+             <p><strong>Nome:</strong> Pedro Costa</p>
+             <p><strong>Email:</strong> pedro@ippe.ao</p>
+             <p><strong>Curso:</strong> Análises Clínica</p>
+             <p><strong>Turma:</strong> AC-10-A</p>
+             <p><strong>Data de Matrícula:</strong> 08/01/2024</p>
+             <p><strong>Status:</strong> Ativo</p>`
+    };
+    document.getElementById('detalhesMatricula').innerHTML = detalhes[id];
+    document.getElementById('modalVerMatricula').classList.add('show');
+}
+
+function fecharModal(modalId) {
+    document.getElementById(modalId).classList.remove('show');
+}
+
+function novaMatricula(e) {
+    e.preventDefault();
+    alert('Matrícula registada com sucesso!');
+    fecharModal('modalNovaMatricula');
+    document.querySelector('#modalNovaMatricula form').reset();
+}
+
+function editarMatricula(e) {
+    e.preventDefault();
+    alert('Matrícula atualizada com sucesso!');
+    fecharModal('modalEditarMatricula');
+}
+
+function aprovarMatricula(id) {
+    alert(`Matrícula #202401${id} aprovada!`);
+}
+
+function rejeitarMatricula(id) {
+    alert(`Matrícula #202401${id} rejeitada!`);
+}
+
+function renovarMatricula(id) {
+    alert(`Matrícula #202400${id} renovada com sucesso!`);
+}
+
+// Fechar modal ao clicar fora
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('show');
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', loadPage);
+
+</script>
 
 </body>
 </html>

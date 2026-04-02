@@ -1,275 +1,534 @@
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cursos - IPPE CONNECT</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/dashboard.css">
-</head>
+    <title>Gestão de Cursos - IPPE CONNECT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
 
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-brand {
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .navbar-right span {
+            color: white;
+            font-size: 12px;
+        }
+        .navbar button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.3s ease;
+        }
+        .navbar button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* MAIN */
+        .main {
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .page-header h1 {
+            font-size: 24px;
+            color: #1a472a;
+        }
+
+        /* SEÇÕES */
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 16px;
+            color: #1a472a;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* TABELA */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        thead {
+            background: #f9f9f9;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* BADGE */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: bold;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* BOTÕES */
+        .btn {
+            padding: 6px 12px;
+            background: #1a472a;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-add {
+            background: #1a472a;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-add:hover {
+            opacity: 0.8;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+        }
+
+        /* GRID 2 */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: popUp 0.3s ease;
+        }
+        @keyframes popUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h2 {
+            font-size: 16px;
+            color: #1a472a;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            th, td {
+                padding: 8px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
 <body>
 
-<div class="dashboard-container">
-    
-    <!-- NAVBAR -->
-    <nav class="navbar-custom">
-        <div class="navbar-brand-custom">
-            <i class="bi bi-speedometer2"></i> IPPE CONNECT
-        </div>
-        <button class="menu-toggle" id="menuToggle">
-            <i class="bi bi-list"></i>
-        </button>
-        <div class="navbar-actions">
-            <span id="userDisplay">Admin</span>
-            <button class="btn btn-light btn-sm" onclick="logout()">
-                <i class="bi bi-box-arrow-right"></i> Sair
-            </button>
-        </div>
-    </nav>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar" id="sidebar">
-        <a href="dashboard-admin.html" class="sidebar-item">
-            <i class="bi bi-house-fill"></i> Dashboard
-        </a>
-        <a href="alunos.html" class="sidebar-item">
-            <i class="bi bi-people-fill"></i> Estudantes
-        </a>
-        <a href="docentes.html" class="sidebar-item">
-            <i class="bi bi-person-badge-fill"></i> Docentes
-        </a>
-        <a href="cursos.html" class="sidebar-item active">
-            <i class="bi bi-mortarboard-fill"></i> Cursos
-        </a>
-        <a href="disciplinas.html" class="sidebar-item">
-            <i class="bi bi-book-fill"></i> Disciplinas
-        </a>
-        <a href="turmas.html" class="sidebar-item">
-            <i class="bi bi-collection-fill"></i> Turmas
-        </a>
-        <a href="notas.html" class="sidebar-item">
-            <i class="bi bi-file-earmark-text-fill"></i> Notas
-        </a>
-        <a href="pagamentos.html" class="sidebar-item">
-            <i class="bi bi-credit-card-fill"></i> Pagamentos
-        </a>
-        <hr>
-        <a href="configuracoes.html" class="sidebar-item">
-            <i class="bi bi-gear-fill"></i> Configurações
-        </a>
-    </div>
+</div>
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-        
+<!-- MAIN -->
+<div class="main">
+    <div class="container">
+
+        <!-- HEADER -->
         <div class="page-header">
             <h1>📚 Gestão de Cursos</h1>
-            <button class="btn btn-primary" onclick="abrirModalNovoCurso()">
-                <i class="bi bi-plus-circle"></i> Novo Curso
-            </button>
+            <button class="btn-add" onclick="abrirModalAdicionarCurso()">+ Novo Curso</button>
         </div>
 
-        <!-- FILTROS -->
-        <div class="filters">
-            <input type="text" id="searchCursos" class="form-control" placeholder="🔍 Procurar curso...">
-            <select id="filterStatus" class="form-control">
-                <option value="">Todos os Status</option>
-                <option value="ativo">Ativo</option>
-                <option value="inativo">Inativo</option>
-            </select>
-        </div>
-
-        <!-- TABELA -->
-        <div class="table-container">
-            <table class="table">
+        <!-- TABELA CURSOS -->
+        <div class="section">
+            <h2>Cursos Disponíveis</h2>
+            <table>
                 <thead>
                     <tr>
-                        <th>Nome do Curso</th>
-                        <th>Código</th>
+                        <th>Curso</th>
+                        <th>Sigla</th>
                         <th>Coordenador</th>
-                        <th>Duração</th>
                         <th>Turmas</th>
+                        <th>Estudantes</th>
                         <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="tabelaCursos">
                     <tr>
-                        <td colspan="7" class="text-center text-muted">Carregando...</td>
+                        <td>Informática de Gestão</td>
+                        <td>IG</td>
+                        <td>Dr. Carlos Silva</td>
+                        <td>4</td>
+                        <td>120</td>
+                        <td><span class="badge">Ativo</span></td>
+                        <td>
+                            <button class="btn" onclick="abrirModalEditarCurso(1, 'Informática de Gestão', 'IG', 'Dr. Carlos Silva')">Editar</button>
+                            <button class="btn btn-danger" onclick="excluirCurso(1)">Excluir</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Enfermagem Geral</td>
+                        <td>EG</td>
+                        <td>Dra. Ana Costa</td>
+                        <td>3</td>
+                        <td>95</td>
+                        <td><span class="badge">Ativo</span></td>
+                        <td>
+                            <button class="btn" onclick="abrirModalEditarCurso(2, 'Enfermagem Geral', 'EG', 'Dra. Ana Costa')">Editar</button>
+                            <button class="btn btn-danger" onclick="excluirCurso(2)">Excluir</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Análises Clínica</td>
+                        <td>AC</td>
+                        <td>Dr. Pedro Martins</td>
+                        <td>2</td>
+                        <td>41</td>
+                        <td><span class="badge">Ativo</span></td>
+                        <td>
+                            <button class="btn" onclick="abrirModalEditarCurso(3, 'Análises Clínica', 'AC', 'Dr. Pedro Martins')">Editar</button>
+                            <button class="btn btn-danger" onclick="excluirCurso(3)">Excluir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- DETALHES DOS CURSOS -->
+        <div class="section">
+            <h2>Detalhes dos Cursos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Curso</th>
+                        <th>Anos</th>
+                        <th>Disciplinas</th>
+                        <th>Carga Horária</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Informática de Gestão</td>
+                        <td>3 (10º, 11º, 12º)</td>
+                        <td>12</td>
+                        <td>2400h</td>
+                        <td>Formação em programação, sistemas e gestão de bases de dados</td>
+                    </tr>
+                    <tr>
+                        <td>Enfermagem Geral</td>
+                        <td>3 (10º, 11º, 12º)</td>
+                        <td>14</td>
+                        <td>2800h</td>
+                        <td>Formação em enfermagem com foco em cuidados e práticas clínicas</td>
+                    </tr>
+                    <tr>
+                        <td>Análises Clínica</td>
+                        <td>3 (10º, 11º, 12º)</td>
+                        <td>13</td>
+                        <td>2600h</td>
+                        <td>Especialização em análises laboratoriais e diagnósticos clínicos</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
     </div>
-
 </div>
 
-<!-- MODAL NOVO CURSO -->
-<div class="modal fade" id="modalCurso" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="bi bi-plus-circle"></i> Novo Curso
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formCurso">
-                    <div class="mb-3">
-                        <label class="form-label">Nome do Curso</label>
-                        <input type="text" class="form-control" id="nomeCurso" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Código do Curso</label>
-                        <input type="text" class="form-control" id="codigoCurso" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Descrição</label>
-                        <textarea class="form-control" id="descricaoCurso" rows="3"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Coordenador</label>
-                        <select class="form-control" id="coordenadorCurso" required>
-                            <option value="">Seleccione um docente</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Duração (em semestres)</label>
-                        <input type="number" class="form-control" id="duracaoCurso" value="4" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Preço Mensal (em Kz)</label>
-                        <input type="number" class="form-control" id="precoCurso" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="salvarCurso()">Guardar</button>
-            </div>
+<!-- MODAL ADICIONAR CURSO -->
+<div class="modal" id="modalAdicionarCurso">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Adicionar Novo Curso</h2>
+            <button class="close-modal" onclick="fecharModal('modalAdicionarCurso')">×</button>
         </div>
+        <form onsubmit="adicionarCurso(event)">
+            <div class="form-group">
+                <label>Nome do Curso</label>
+                <input type="text" id="nomeCurso" placeholder="Ex: Informática de Gestão" required>
+            </div>
+            <div class="form-group">
+                <label>Sigla</label>
+                <input type="text" id="siglaCurso" placeholder="Ex: IG" required>
+            </div>
+            <div class="form-group">
+                <label>Coordenador</label>
+                <input type="text" id="coordenadorCurso" placeholder="Ex: Dr. Nome" required>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Anos</label>
+                    <input type="number" id="anosCurso" min="1" max="4" placeholder="Ex: 3" required>
+                </div>
+                <div class="form-group">
+                    <label>Disciplinas</label>
+                    <input type="number" id="disciplinasCurso" min="1" placeholder="Ex: 12" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Descrição</label>
+                <textarea id="descricaoCurso" placeholder="Descrição do curso" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">✓ Adicionar Curso</button>
+        </form>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="../js/supabaseClient.js"></script>
-<script src="../js/dashboard.js"></script>
+<!-- MODAL EDITAR CURSO -->
+<div class="modal" id="modalEditarCurso">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Editar Curso</h2>
+            <button class="close-modal" onclick="fecharModal('modalEditarCurso')">×</button>
+        </div>
+        <form onsubmit="editarCurso(event)">
+            <div class="form-group">
+                <label>Nome do Curso</label>
+                <input type="text" id="editNomeCurso" required>
+            </div>
+            <div class="form-group">
+                <label>Sigla</label>
+                <input type="text" id="editSiglaCurso" required>
+            </div>
+            <div class="form-group">
+                <label>Coordenador</label>
+                <input type="text" id="editCoordenadorCurso" required>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Anos</label>
+                    <input type="number" id="editAnosCurso" min="1" max="4" required>
+                </div>
+                <div class="form-group">
+                    <label>Disciplinas</label>
+                    <input type="number" id="editDisciplinasCurso" min="1" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Descrição</label>
+                <textarea id="editDescricaoCurso" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">✓ Guardar Alterações</button>
+        </form>
+    </div>
+</div>
 
 <script>
 
-// Carregar cursos
-async function carregarCursos() {
-    try {
-        const tbody = document.getElementById('tabelaCursos');
-        
-        // Simular dados (substituir com dados reais do Supabase)
-        const cursos = [
-            {
-                id: 1,
-                nome: 'Licenciatura em Sistemas de Informação',
-                codigo: 'LSI-001',
-                coordenador: 'Dr. Carlos Silva',
-                duracao: 4,
-                turmas: 3,
-                status: 'ativo'
-            },
-            {
-                id: 2,
-                nome: 'Licenciatura em Computação',
-                codigo: 'LC-002',
-                coordenador: 'Dr. João Santos',
-                duracao: 4,
-                turmas: 2,
-                status: 'ativo'
-            },
-            {
-                id: 3,
-                nome: 'Técnico em Redes de Computadores',
-                codigo: 'TRC-003',
-                coordenador: 'Dr. Maria Oliveira',
-                duracao: 2,
-                turmas: 1,
-                status: 'ativo'
-            }
-        ];
+let cursoEmEdicao = null;
 
-        tbody.innerHTML = cursos.map(curso => `
-            <tr>
-                <td><strong>${curso.nome}</strong></td>
-                <td>${curso.codigo}</td>
-                <td>${curso.coordenador}</td>
-                <td>${curso.duracao} semestres</td>
-                <td><span class="badge bg-info">${curso.turmas}</span></td>
-                <td><span class="badge ${curso.status === 'ativo' ? 'bg-success' : 'bg-danger'}">${curso.status === 'ativo' ? '✓ Ativo' : '✗ Inativo'}</span></td>
-                <td>
-                    <button class="btn btn-sm btn-primary" onclick="editarCurso(${curso.id})"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-sm btn-danger" onclick="deletarCurso(${curso.id})"><i class="bi bi-trash"></i></button>
-                </td>
-            </tr>
-        `).join('');
-        
-    } catch (error) {
-        console.error('Erro ao carregar cursos:', error);
-    }
+function loadPage() {
+    const userName = localStorage.getItem('user_name') || 'Administrador';
+    document.getElementById('userGreeting').textContent = `Bem-vindo, ${userName}!`;
 }
 
-function abrirModalNovoCurso() {
-    document.getElementById('formCurso').reset();
-    new bootstrap.Modal(document.getElementById('modalCurso')).show();
-}
-
-function salvarCurso() {
-    const nome = document.getElementById('nomeCurso').value;
-    const codigo = document.getElementById('codigoCurso').value;
-    const descricao = document.getElementById('descricaoCurso').value;
-    const coordenador = document.getElementById('coordenadorCurso').value;
-    const duracao = document.getElementById('duracaoCurso').value;
-    const preco = document.getElementById('precoCurso').value;
-
-    if (!nome || !codigo || !coordenador || !duracao || !preco) {
-        alert('⚠️ Por favor, preencha todos os campos obrigatórios!');
-        return;
-    }
-
-    alert('✅ Curso guardado com sucesso!');
-    bootstrap.Modal.getInstance(document.getElementById('modalCurso')).hide();
-    carregarCursos();
-}
-
-function editarCurso(id) {
-    alert('✏️ Editar curso #' + id);
-}
-
-function deletarCurso(id) {
-    if (confirm('Tem certeza que deseja eliminar este curso?')) {
-        alert('✅ Curso eliminado com sucesso!');
-        carregarCursos();
-    }
+function voltar() {
+    window.history.back();
 }
 
 function logout() {
-    if (confirm('Deseja realmente sair?')) {
-        window.location.href = 'login.html';
+    if (confirm('Deseja sair?')) {
+        localStorage.clear();
+        window.location.href = './login.html';
     }
 }
 
-// Menu toggle mobile
-document.getElementById('menuToggle').addEventListener('click', function() {
-    document.getElementById('sidebar').classList.toggle('show');
+// MODAIS
+function abrirModalAdicionarCurso() {
+    document.getElementById('modalAdicionarCurso').classList.add('show');
+}
+
+function abrirModalEditarCurso(id, nome, sigla, coordenador) {
+    cursoEmEdicao = id;
+    document.getElementById('editNomeCurso').value = nome;
+    document.getElementById('editSiglaCurso').value = sigla;
+    document.getElementById('editCoordenadorCurso').value = coordenador;
+    document.getElementById('modalEditarCurso').classList.add('show');
+}
+
+function fecharModal(modalId) {
+    document.getElementById(modalId).classList.remove('show');
+}
+
+function adicionarCurso(e) {
+    e.preventDefault();
+    const nome = document.getElementById('nomeCurso').value;
+    alert(`Curso "${nome}" adicionado com sucesso!`);
+    document.getElementById('modalAdicionarCurso').classList.remove('show');
+    document.querySelector('#modalAdicionarCurso form').reset();
+}
+
+function editarCurso(e) {
+    e.preventDefault();
+    const nome = document.getElementById('editNomeCurso').value;
+    alert(`Curso "${nome}" atualizado com sucesso!`);
+    document.getElementById('modalEditarCurso').classList.remove('show');
+}
+
+function excluirCurso(id) {
+    if (confirm('Tem certeza que deseja excluir este curso?')) {
+        alert('Curso excluído com sucesso!');
+    }
+}
+
+// Fechar modal ao clicar fora
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('show');
+        }
+    });
 });
 
-// Carregar dados ao iniciar
-document.addEventListener('DOMContentLoaded', carregarCursos);
+document.addEventListener('DOMContentLoaded', loadPage);
 
 </script>
 
 </body>
-
 </html>
