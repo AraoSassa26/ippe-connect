@@ -3,323 +3,757 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPPE CONNECT</title>
+    <title>IPPE CONNECT - Portal de Gestão Académica</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: Arial, sans-serif;
-            color: #333;
-            background: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #1e293b;
+            background: #f8fafc;
         }
 
-        /* NAVBAR */
+        /* NAVBAR - DESIGN MODERNO INTEGRADO */
         .navbar {
-            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
-            padding: 15px 20px;
+            background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+            padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
+
         .navbar-brand {
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            font-size: 12px;
-            margin-left: 20px;
-            transition: all 0.3s ease;
-        }
-        .navbar a:hover {
-            color: #ffd700;
-        }
-        .btn-login {
-            background: #ffd700;
-            color: #1a472a;
-            padding: 8px 16px;
-            border-radius: 4px;
-            margin-left: 10px;
-        }
-
-        /* HERO */
-        .hero {
-            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-        }
-        .hero p {
-            font-size: 14px;
-            margin-bottom: 25px;
-            opacity: 0.9;
-        }
-        .hero-btn {
-            display: inline-block;
-            background: #ffd700;
-            color: #1a472a;
-            padding: 12px 30px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 13px;
-        }
-        .hero-btn:hover {
-            background: #ffed4e;
-        }
-
-        /* CONTAINER */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* SECTION TITLE */
-        .section-title {
-            text-align: center;
-            font-size: 24px;
-            color: #1a472a;
-            margin: 40px 0 25px;
-        }
-
-        /* CURSOS */
-        .cursos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-        .curso-card {
-            background: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .curso-card:hover {
-            border-color: #1a472a;
-            box-shadow: 0 4px 8px rgba(26, 71, 42, 0.1);
-        }
-        .curso-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        .curso-card h3 {
-            font-size: 15px;
-            color: #1a472a;
-            margin-bottom: 8px;
-        }
-        .curso-card p {
-            font-size: 12px;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* GALERIA */
-        .galeria {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
             gap: 12px;
-            margin: 30px 0;
+            letter-spacing: 0.5px;
         }
-        .galeria-item {
-            height: 180px;
-            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
-            border-radius: 4px;
-            cursor: pointer;
-            overflow: hidden;
+
+        .navbar-menu {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .navbar-menu a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
             transition: all 0.3s ease;
             position: relative;
         }
-        .galeria-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        .galeria-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-        }
-        .galeria-item:hover .galeria-img {
-            opacity: 1;
+
+        .navbar-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #facc15;
+            transition: width 0.3s ease;
         }
 
-        /* NOTÍCIAS */
-        .noticias {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-            margin: 30px 0 50px;
-        }
-        .noticia-card {
-            background: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .noticia-card:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .noticia-img {
+        .navbar-menu a:hover::after {
             width: 100%;
-            height: 140px;
-            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
-            object-fit: cover;
         }
-        .noticia-content {
-            padding: 15px;
+
+        .navbar-menu a:hover {
+            color: #facc15;
         }
-        .noticia-date {
-            font-size: 11px;
-            color: #999;
-            margin-bottom: 5px;
+
+        .btn-login {
+            background: #facc15;
+            color: #14532d;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(250,204,21,0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .noticia-card h3 {
+
+        .btn-login:hover {
+            background: #fde047;
+            transform: scale(1.05) translateY(-1px);
+            box-shadow: 0 6px 20px rgba(250,204,21,0.4);
+        }
+
+        /* HERO SECTION VIVO E PREMIUM */
+        .hero {
+            background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+            color: #ffffff;
+            padding: 120px 50px;
+            text-align: center;
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(250,204,21,0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 25px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            max-width: 900px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: #f0fdf4;
+            max-width: 700px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            z-index: 10;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-primary {
+            background: #facc15;
+            color: #14532d;
+            box-shadow: 0 4px 15px rgba(250,204,21,0.3);
+        }
+
+        .btn-primary:hover {
+            background: #fde047;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(250,204,21,0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background: #ffffff;
+            color: #166534;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255,255,255,0.2);
+        }
+
+        /* SEÇÃO DE NOTÍCIAS E INOVAÇÃO */
+        .news-section {
+            padding: 90px 50px;
+            background: #ffffff;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+        }
+
+        .section-tag {
+            color: #16a34a;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 38px;
+            color: #14532d;
+            font-weight: 800;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(22,101,52,0.12);
+        }
+
+        .news-image-placeholder {
+            height: 220px;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            position: relative;
+        }
+
+        .news-tag {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #16a34a;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .news-tag.tech {
+            background: #2563eb;
+        }
+
+        .news-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-date {
             font-size: 13px;
-            color: #1a472a;
-            margin-bottom: 8px;
-            font-weight: bold;
+            color: #64748b;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
-        .noticia-card p {
-            font-size: 11px;
-            color: #666;
+
+        .news-content h3 {
+            font-size: 20px;
+            color: #1e293b;
+            margin-bottom: 12px;
+            font-weight: 700;
             line-height: 1.4;
         }
 
-        /* FOOTER */
-        .footer {
-            background: #1a1a1a;
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-            font-size: 12px;
-            margin-top: 40px;
+        .news-content p {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
-        .footer-links {
-            margin-bottom: 15px;
-        }
-        .footer-links a {
-            color: #ccc;
+
+        .news-link {
+            color: #16a34a;
             text-decoration: none;
-            margin: 0 10px;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.2s ease;
         }
-        .footer-links a:hover {
-            color: #ffd700;
+
+        .news-card:hover .news-link {
+            gap: 10px;
+        }
+
+        /* SEÇÃO DE EVENTOS TECNOLÓGICOS E ACADÉMICOS */
+        .events-section {
+            padding: 90px 50px;
+            background: #f8fafc;
+        }
+
+        .events-list {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .event-item {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            border-left: 6px solid #16a34a;
+            transition: transform 0.3s ease;
+        }
+
+        .event-item.tech-event {
+            border-left-color: #2563eb;
+        }
+
+        .event-item:hover {
+            transform: scale(1.01);
+        }
+
+        .event-date-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            color: #166534;
+            min-width: 90px;
+            height: 90px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .event-item.tech-event .event-date-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            color: #1e40af;
+        }
+
+        .event-date-box .day {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .event-date-box .month {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .event-details {
+            flex-grow: 1;
+        }
+
+        .event-time-place {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .event-details h3 {
+            font-size: 20px;
+            color: #1e293b;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .event-details p {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        /* SEÇÃO DE INFRAESTRUTURA / PILARES */
+        .features {
+            padding: 90px 50px;
+            background: #ffffff;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+            padding: 40px 30px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-color: #16a34a;
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #14532d;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ÁREA DE ACESSO COMPACTA (ANTIGO TUTORIAL) */
+        .demo-section {
+            padding: 70px 50px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .demo-card {
+            background: #ffffff;
+            padding: 20px 25px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .demo-card h3 {
+            color: #14532d;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .demo-field {
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .demo-field strong {
+            color: #1e293b;
+        }
+
+        .demo-field code {
+            background: #f1f5f9;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        /* FOOTER COMPACTO INSTITUCIONAL */
+        footer {
+            background: #14532d;
+            color: #ffffff;
+            padding: 60px 50px 30px 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+            text-align: left;
+        }
+
+        .footer-info h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: 800;
+            color: #facc15;
+        }
+
+        .footer-info p {
+            color: #d1fae5;
+            line-height: 1.6;
+        }
+
+        .footer-contact h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-contact p {
+            margin-bottom: 10px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #a7f3d0;
+        }
+
+        @media (max-width: 900px) {
+            .event-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .event-date-box {
+                width: 70px;
+                height: 70px;
+                min-width: 70px;
+            }
+            .event-date-box .day { font-size: 22px; }
         }
 
         @media (max-width: 768px) {
-            .navbar { flex-wrap: wrap; gap: 10px; }
-            .navbar a { margin-left: 10px; font-size: 11px; }
-            .hero { padding: 40px 20px; }
-            .hero h1 { font-size: 24px; }
-            .hero p { font-size: 12px; }
-            .cursos { grid-template-columns: 1fr; }
-            .galeria { grid-template-columns: repeat(2, 1fr); }
-            .noticias { grid-template-columns: 1fr; }
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .navbar-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .hero {
+                padding: 80px 20px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .news-section, .events-section, .features, .demo-section {
+                padding: 60px 20px;
+            }
+
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-contact p {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="navbar-brand">IPPE</div>
-    <div>
-        <a href="#cursos">Cursos</a>
-        <a href="#galeria">Galeria</a>
-        <a href="#noticias">Notícias</a>
-        <a href="pages/login.html" class="btn-login">Entrar</a>
-    </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-    <div class="container">
-        <h1>IPPE CONNECT</h1>
-        <p>Portal de Gestão Académica</p>
-        <a href="pages/login.html" class="hero-btn">Aceder ao Portal</a>
-    </div>
-</section>
-
-<!-- CURSOS -->
-<div class="container">
-    <h2 class="section-title" id="cursos">Nossos Cursos</h2>
-    <div class="cursos">
-        <div class="curso-card">
-            <div class="curso-icon">💻</div>
-            <h3>Informática de Gestão</h3>
-            <p>Programação, sistemas e gestão de dados</p>
+    <nav class="navbar">
+        <div class="navbar-brand">🎓 IPPE CONNECT</div>
+        <div class="navbar-menu">
+            <a href="#news">Notícias</a>
+            <a href="#events">Eventos</a>
+            <a href="#features">Pilares</a>
+          
+            <button class="btn-login" onclick="window.location.href='pages/login.html'">Portal Académico</button>
         </div>
-        <div class="curso-card">
-            <div class="curso-icon">⚕️</div>
-            <h3>Enfermagem Geral</h3>
-            <p>Formação em cuidados de saúde</p>
-        </div>
-        <div class="curso-card">
-            <div class="curso-icon">🔬</div>
-            <h3>Análises Clínica</h3>
-            <p>Análises laboratoriais e diagnósticos</p>
-        </div>
-    </div>
+    </nav>
 
-    <!-- GALERIA -->
-    <h2 class="section-title" id="galeria">Galeria</h2>
-    <div class="galeria" id="galeria-grid">
-        <div class="galeria-item"><img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&h=300&fit=crop" class="galeria-img" alt="Biblioteca"></div>
-        <div class="galeria-item"><img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=300&fit=crop" class="galeria-img" alt="Laboratório"></div>
-        <div class="galeria-item"><img 
-        <div class="galeria-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" class="galeria-img" alt="Auditório"></div>
-    </div>
+    <section class="hero">
+        <h1>INSPIRANDO SEU FUTURO</h1>
+        <p>Inovação, ciência e excelência académica unidas em uma estrutura moderna e conectada para toda a nossa comunidade escolar.</p>
+        <div class="hero-buttons">
+            <button class="btn-primary" onclick="window.location.href='pages/login.html'">Área do Aluno</button>
+            <button class="btn-secondary" onclick="document.getElementById('news').scrollIntoView({behavior:'smooth'})">Explorar o Instituto</button>
+        </div>
+    </section>
 
-    <!-- NOTÍCIAS -->
-    <h2 class="section-title" id="noticias">Notícias</h2>
-   
-        <
-        <div class="noticia-card">
-            <div class="noticia-img"></div>
-            <div class="noticia-content">
-                <div class="noticia-date">10 Março, 2026</div>
-                <h3>Novo Laboratório Inaugurado</h3>
-                <p>Laboratório de Análises Clínicas com equipamentos modernos.</p>
+    <section class="news-section" id="news">
+        <div class="section-header">
+            <span class="section-tag">Fique por dentro</span>
+            <h2 class="section-title">Últimas Notícias do IPPE</h2>
+        </div>
+        <div class="news-grid">
+            <div class="news-card">
+                <div class="news-image-placeholder">
+                    <span class="news-tag tech">Inovação</span>
+                    🤖
+                </div>
+                <div class="news-content">
+                    <div class="news-date">18 de Maio de 2026</div>
+                    <h3>Estudantes Desenvolvem Protótipo de Automação Sustentável</h3>
+                    <p>O grupo de Engenharia e Robótica do IPPE finalizou o desenvolvimento de um sistema inteligente voltado para a otimização de recursos dentro das instalações do colégio.</p>
+                    <a href="#" class="news-link">Ler notícia completa &rarr;</a>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <div class="news-image-placeholder">
+                    <span class="news-tag">Académico</span>
+                    📈
+                </div>
+                <div class="news-content">
+                    <div class="news-date">14 de Maio de 2026</div>
+                    <h3>IPPE Conquista Destaque em Olimpíadas de Conhecimento</h3>
+                    <p>Nossos alunos alcançaram posições de liderança nas avaliações integradas regionais, reforçando o compromisso do corpo docente com o ensino de excelência.</p>
+                    <a href="#" class="news-link">Ler notícia completa &rarr;</a>
+                </div>
+            </div>
+
+            <div class="news-card">
+                <div class="news-image-placeholder">
+                    <span class="news-tag tech">Tecnologia</span>
+                    💻
+                </div>
+                <div class="news-content">
+                    <div class="news-date">05 de Maio de 2026</div>
+                    <h3>Modernização Completa dos Laboratórios de Informática</h3>
+                    <p>Novos equipamentos de alto desempenho e softwares de desenvolvimento de última geração foram implementados para as aulas práticas de programação.</p>
+                    <a href="#" class="news-link">Ler notícia completa &rarr;</a>
+                </div>
             </div>
         </div>
-        <div class="noticia-card">
-            <div class="noticia-img"></div>
-            <div class="noticia-content">
-                <div class="noticia-date">01 Março, 2026</div>
-                <h3>Bolsas de Estudo Disponíveis</h3>
-                <p>IPPE oferece bolsas para estudantes com bom desempenho.</p>
+    </section>
+
+    <section class="events-section" id="events">
+        <div class="section-header">
+            <span class="section-tag">Calendário</span>
+            <h2 class="section-title">Próximos Grandes Eventos</h2>
+        </div>
+        <div class="events-list">
+            <div class="event-item tech-event">
+                <div class="event-date-box">
+                    <span class="day">10</span>
+                    <span class="month">Jun</span>
+                </div>
+                <div class="event-details">
+                    <div class="event-time-place">🕒 09:00 - 17:00 | 📍 Auditório Principal & Lab Tech</div>
+                    <h3>Hackathon Interno IPPE 2026</h3>
+                    <p>Um desafio intenso de programação e desenvolvimento de soluções tecnológicas onde equipes de diferentes classes competirão para resolver problemas reais da nossa comunidade escolar.</p>
+                </div>
+            </div>
+
+            <div class="event-item">
+                <div class="event-date-box">
+                    <span class="day">22</span>
+                    <span class="month">Jun</span>
+                </div>
+                <div class="event-details">
+                    <div class="event-time-place">🕒 14:00 - 19:00 | 📍 Pavilhão de Eventos</div>
+                    <h3>Feira de Ciências e Mostra Cultural</h3>
+                    <p>Apresentação pública dos projetos multidisciplinares desenvolvidos pelos alunos durante o semestre. Aberto a pais, encarregados de educação e visitantes.</p>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="footer-links">
-        <a href="#">Sobre</a>
-        <a href="#">Contacto</a>
-        <a href="#">Privacidade</a>
-    </div>
-    <p>© 2024 IPPE CONNECT. Todos os direitos reservados.</p>
-</footer>
+    <section class="features" id="features">
+        <div class="section-header">
+            <span class="section-tag">Diferenciais</span>
+            <h2 class="section-title">Por que fazer parte do IPPE?</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔬</div>
+                <h3>Laboratórios Avançados</h3>
+                <p>Estrutura preparada para o aprendizado prático de química, física e tecnologias emergentes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Ensino Inovador</h3>
+                <p>Metodologias focadas no protagonismo do estudante, preparando-o para os reais desafios do mercado.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Formação Global</h3>
+                <p>Projetos focados em cidadania, desenvolvimento cultural e tecnologia de ponta integrada.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="demo-section" id="demo">
+        <h2 class="demo-title" style="text-align: center; margin-bottom: 30px; font-weight: 800; color: #14532d;">🔐 Contas de Acesso Académico</h2>
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>👨‍💼 Administração</h3>
+                <div class="demo-field"><strong>User:</strong> <code>admin@ippe.ao</code></div>
+                <div class="demo-field"><strong>Pass:</strong> <code>123</code></div>
+            </div>
+            <div class="demo-card">
+                <h3>👨‍🏫 Corpo Docente</h3>
+                <div class="demo-field"><strong>User:</strong> <code>professor@ippe.ao</code></div>
+                <div class="demo-field"><strong>Pass:</strong> <code>123</code></div>
+            </div>
+            <div class="demo-card">
+                <h3>👨‍🎓 Estudantes</h3>
+                <div class="demo-field"><strong>User:</strong> <code>joao@ippe.ao</code></div>
+                <div class="demo-field"><strong>Pass:</strong> <code>123</code></div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-info">
+                <h3>IPPE CONNECT</h3>
+                <p>Construindo trajetórias de sucesso através da educação tecnológica de excelência e conectividade integrada.</p>
+            </div>
+            <div class="footer-contact">
+                <h4>Contacto e Localização</h4>
+                <p>✉️ <strong>Email:</strong> suporte@ippe.ao</p>
+                <p>📞 <strong>Telefone:</strong> +244 923 123 456</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 IPPE CONNECT. Todos os direitos reservados.
+        </div>
+    </footer>
 
 </body>
 </html>

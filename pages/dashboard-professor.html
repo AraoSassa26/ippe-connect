@@ -3,669 +3,549 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Professor - IPPE CONNECT</title>
+    <title>Painel Professor - IPPE CONNECT</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
             color: #333;
         }
 
-        /* NAVBAR */
-        .navbar {
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
             background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
-            padding: 15px 20px;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-logo {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin: 8px 0;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
-        .navbar-brand {
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .navbar-right {
+
+        .header-left {
             display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .navbar-right span {
-            color: white;
-            font-size: 12px;
-        }
-        .navbar button {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid white;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
-            transition: all 0.3s ease;
-        }
-        .navbar button:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            background: white;
-            border-right: 1px solid #ddd;
-            width: 200px;
-            padding: 0;
-            position: fixed;
-            left: 0;
-            top: 60px;
-            height: calc(100vh - 60px);
-            overflow-y: auto;
-        }
-        .sidebar a {
-            display: block;
-            padding: 15px 20px;
-            text-decoration: none;
-            color: #666;
-            border-left: 3px solid transparent;
-            transition: all 0.3s ease;
-            font-size: 13px;
-            font-weight: bold;
-        }
-        .sidebar a:hover, .sidebar a.active {
-            background: #f9f9f9;
-            color: #1a472a;
-            border-left-color: #1a472a;
-        }
-
-        /* MAIN */
-        .main {
-            margin-left: 200px;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1000px;
-        }
-
-        /* INFO DO PROFESSOR */
-        .info-professor {
-            background: white;
-            padding: 20px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            border-top: 4px solid #1a472a;
-        }
-        .info-header {
-            display: grid;
-            grid-template-columns: auto 1fr;
             gap: 20px;
-            align-items: start;
-            margin-bottom: 15px;
+            align-items: center;
         }
-        .avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: #e0e4e8;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 28px;
+            font-size: 24px;
         }
-        .info-texto h2 {
+
+        .user-info h2 {
             font-size: 18px;
-            color: #1a472a;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
-        .info-texto p {
-            font-size: 12px;
+
+        .user-info p {
+            font-size: 13px;
             color: #666;
-            margin: 3px 0;
-        }
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
-        .info-item {
-            text-align: center;
-        }
-        .info-item-label {
-            font-size: 11px;
-            color: #999;
-            margin-bottom: 5px;
-        }
-        .info-item-value {
-            font-size: 14px;
-            font-weight: bold;
-            color: #1a472a;
         }
 
-        /* CARDS */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 4px;
-            border-left: 4px solid #1a472a;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .card-value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1a472a;
-            margin-bottom: 5px;
-        }
-        .card-label {
-            font-size: 12px;
-            color: #999;
-        }
-
-        /* SEÇÕES */
-        .section {
-            background: white;
-            padding: 20px;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .section h2 {
-            font-size: 16px;
-            color: #1a472a;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        /* TABELA */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-        }
-        thead {
-            background: #f9f9f9;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        tr:hover {
-            background: #f9f9f9;
-        }
-
-        /* BADGE */
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 3px;
-            font-size: 10px;
-            font-weight: bold;
-            background: #d4edda;
-            color: #155724;
-        }
-
-        /* FORM */
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size: 12px;
-        }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 12px;
-            font-family: Arial, sans-serif;
-        }
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .btn-submit {
-            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
-            color: white;
+        .btn-logout {
             padding: 10px 20px;
+            background: #dc3545;
+            color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 12px;
             transition: all 0.3s ease;
         }
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(26, 71, 42, 0.3);
+
+        .btn-logout:hover {
+            background: #c82333;
         }
 
-        /* GRID 2 COLUNAS */
-        .grid-2 {
+        .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
-        /* HIDE */
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #1a472a;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a472a;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a472a;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f5f7fa;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        table thead {
+            background: #f5f7fa;
+            border-bottom: 2px solid #e0e4e8;
+        }
+
+        table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e4e8;
+        }
+
+        table tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .badge-aprovado {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-reprovado {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
         .hide {
             display: none;
         }
 
         @media (max-width: 768px) {
             .sidebar {
-                width: 150px;
+                width: 200px;
             }
-            .main {
-                margin-left: 150px;
-                padding: 15px;
-            }
-            .cards {
-                grid-template-columns: 1fr;
-            }
-            .info-header {
-                grid-template-columns: 1fr;
-            }
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-            .sidebar a {
-                padding: 12px 15px;
-                font-size: 11px;
+            .main-content {
+                margin-left: 200px;
             }
         }
+
         @media (max-width: 480px) {
             .sidebar {
                 display: none;
             }
-            .main {
+            .main-content {
                 margin-left: 0;
+                padding: 15px;
+            }
+            .header {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-    <div class="navbar-brand">👨‍🏫 IPPE CONNECT</div>
-    <div class="navbar-right">
-        <span id="userGreeting">Bem-vindo!</span>
-        <button onclick="logout()">Sair</button>
+<div class="container">
+    
+    <div class="sidebar">
+        <div class="sidebar-logo">👨‍🏫 Professor</div>
+        <ul class="sidebar-menu">
+            <li><a class="menu-item active" onclick="showSection('dashboard', event)">📊 Dashboard</a></li>
+            <li><a class="menu-item" onclick="showSection('turmas', event)">👥 Minhas Turmas</a></li>
+            <li><a class="menu-item" onclick="showSection('notas', event)">📝 Lançar Notas</a></li>
+            <li><a class="menu-item" onclick="showSection('frequencia', event)">📋 Frequência</a></li>
+            <li><a class="menu-item" onclick="showSection('conteudos', event)">📁 Conteúdos</a></li>
+            <li><a class="menu-item" onclick="showSection('publicacoes', event)">📢 Publicações</a></li>
+        </ul>
     </div>
-</div>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-    <a href="#" class="menu-item active" onclick="showSection('home', event)">🏠 Início</a>
-    <a href="#" class="menu-item" onclick="showSection('turmas', event)">👥 Minhas Turmas</a>
-    <a href="#" class="menu-item" onclick="showSection('notas', event)">📝 Lançar Notas</a>
-    <a href="#" class="menu-item" onclick="showSection('frequencia', event)">📋 Frequência</a>
-    <a href="#" class="menu-item" onclick="showSection('materiais', event)">📁 Materiais</a>
-</div>
+    <div class="main-content">
+        
+        <div class="header">
+            <div class="header-left">
+                <div class="user-avatar" id="userAvatar">👨‍🏫</div>
+                <div class="user-info">
+                    <h2 id="userName">Professor</h2>
+                    <p id="userEmail">email@ippe.ao</p>
+                </div>
+            </div>
+            <button class="btn-logout" onclick="logout()">Sair</button>
+        </div>
 
-<!-- MAIN -->
-<div class="main">
-    <div class="container">
-
-        <!-- HOME (DEFAULT) -->
-        <div id="home" class="section-container">
+        <!-- DASHBOARD -->
+        <div id="dashboard" class="section">
+            <h3 class="section-title">📊 Meu Dashboard</h3>
             
-            <!-- INFO DO PROFESSOR -->
-            <div class="info-professor">
-                <div class="info-header">
-                    <div class="avatar">👨‍🏫</div>
-                    <div class="info-texto">
-                        <h2 id="nomeProfessor">Dr. Bernardo Lino</h2>
-                        <p id="emailProfessor">bernardo@ippe.ao</p>
-                        <p id="departamentoProfessor">Departamento: Informática</p>
-                        <p id="especialidadeProfessor">Especialidade: Programação</p>
-                    </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statTurmas">0</div>
+                    <div class="stat-label">Turmas Ativas</div>
                 </div>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <div class="info-item-label">Status</div>
-                        <div class="info-item-value">✓ Ativo</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-item-label">Turmas</div>
-                        <div class="info-item-value">2</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-item-label">Total Alunos</div>
-                        <div class="info-item-value">67</div>
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statEstudantes">0</div>
+                    <div class="stat-label">Estudantes Totais</div>
                 </div>
-            </div>
-
-            <!-- CARDS DE RESUMO -->
-            <div class="cards">
-                <div class="card">
-                    <div class="card-value">67</div>
-                    <div class="card-label">Estudantes</div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statDisciplina">Matemática</div>
+                    <div class="stat-label"></div>
                 </div>
-                <div class="card">
-                    <div class="card-value">2</div>
-                    <div class="card-label">Turmas Ativas</div>
-                </div>
-                <div class="card">
-                    <div class="card-value">24</div>
-                    <div class="card-label">Aulas Lectivas</div>
-                </div>
-                <div class="card">
-                    <div class="card-value">18</div>
-                    <div class="card-label">Notas Lançadas</div>
-                </div>
-            </div>
-
-            <!-- TURMAS ATIVAS -->
-            <div class="section">
-                <h2>Turmas Ativas</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Turma</th>
-                            <th>Disciplina</th>
-                            <th>Ano</th>
-                            <th>Estudantes</th>
-                            <th>Horário</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>IG-10-A</td>
-                            <td>Programação I</td>
-                            <td>10º</td>
-                            <td>35</td>
-                            <td>Seg/Qua 08:00</td>
-                        </tr>
-                        <tr>
-                            <td>IG-11-A</td>
-                            <td>Programação II</td>
-                            <td>11º</td>
-                            <td>32</td>
-                            <td>Ter/Qui 10:30</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- ESTUDANTES COM BAIXA FREQUÊNCIA -->
-            <div class="section">
-                <h2>⚠️ Alunos com Baixa Frequência</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Matrícula</th>
-                            <th>Nome</th>
-                            <th>Turma</th>
-                            <th>Presença</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#2024015</td>
-                            <td>Rafael Costa</td>
-                            <td>IG-10-A</td>
-                            <td>70%</td>
-                        </tr>
-                        <tr>
-                            <td>#2024028</td>
-                            <td>Juliana Silva</td>
-                            <td>IG-11-A</td>
-                            <td>75%</td>
-                        </tr>
-                    </tbody>
-                </table>
+                
             </div>
         </div>
 
         <!-- TURMAS -->
-        <div id="turmas" class="section-container hide">
-            <div class="section">
-                <h2>Gestão de Turmas</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Turma</th>
-                            <th>Disciplina</th>
-                            <th>Ano</th>
-                            <th>Estudantes</th>
-                            <th>Horário</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>IG-10-A</td>
-                            <td>Programação I</td>
-                            <td>10º</td>
-                            <td>35</td>
-                            <td>Seg/Qua 08:00</td>
-                            <td><button class="btn-submit" style="padding: 6px 12px;">Ver</button></td>
-                        </tr>
-                        <tr>
-                            <td>IG-11-A</td>
-                            <td>Programação II</td>
-                            <td>11º</td>
-                            <td>32</td>
-                            <td>Ter/Qui 10:30</td>
-                            <td><button class="btn-submit" style="padding: 6px 12px;">Ver</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- LANÇAR NOTAS -->
-        <div id="notas" class="section-container hide">
-            <div class="section">
-                <h2>Lançar Notas</h2>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>Turma</label>
-                        <select>
-                            <option>IG-10-A - Programação I</option>
-                            <option>IG-11-A - Programação II</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Período</label>
-                        <select>
-                            <option>1º Período</option>
-                            <option>2º Período</option>
-                        </select>
-                    </div>
-                </div>
-                <button class="btn-submit">📤 Importar (Excel)</button>
-            </div>
-
-            <div class="section">
-                <h2>Notas da Turma IG-10-A</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Matrícula</th>
-                            <th>Estudante</th>
-                            <th>Nota</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#2024001</td>
-                            <td>João Silva</td>
-                            <td><input type="number" min="0" max="20" value="16" style="width: 60px; padding: 5px;"></td>
-                            <td><span class="badge">Aprovado</span></td>
-                        </tr>
-                        <tr>
-                            <td>#2024002</td>
-                            <td>Maria Santos</td>
-                            <td><input type="number" min="0" max="20" value="14" style="width: 60px; padding: 5px;"></td>
-                            <td><span class="badge">Aprovado</span></td>
-                        </tr>
-                        <tr>
-                            <td>#2024003</td>
-                            <td>Pedro Costa</td>
-                            <td><input type="number" min="0" max="20" value="9" style="width: 60px; padding: 5px;"></td>
-                            <td><span class="badge">Aprovado</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br>
-                <button class="btn-submit">💾 Guardar Notas</button>
-            </div>
-        </div>
-
-        <!-- FREQUÊNCIA -->
-        <div id="frequencia" class="section-container hide">
-            <div class="section">
-                <h2>Registar Frequência</h2>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>Data da Aula</label>
-                        <input type="date">
-                    </div>
-                    <div class="form-group">
-                        <label>Turma</label>
-                        <select>
-                            <option>IG-10-A</option>
-                            <option>IG-11-A</option>
-                        </select>
-                    </div>
-                </div>
-                <button class="btn-submit">✓ Marcar Frequência</button>
-            </div>
-
-            <div class="section">
-                <h2>Últimos Registos de Frequência</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Turma</th>
-                            <th>Presentes</th>
-                            <th>Faltas</th>
-                            <th>Taxa</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>03/04/2024</td>
-                            <td>IG-10-A</td>
-                            <td>34</td>
-                            <td>1</td>
-                            <td>97%</td>
-                        </tr>
-                        <tr>
-                            <td>02/04/2024</td>
-                            <td>IG-11-A</td>
-                            <td>31</td>
-                            <td>1</td>
-                            <td>97%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- MATERIAIS -->
-        <div id="materiais" class="section-container hide">
-            <div class="section">
-                <h2>Meus Materiais de Aula</h2>
-                <div class="form-group">
-                    <label>Adicionar Novo Material</label>
-                    <input type="file">
-                </div>
-                <button class="btn-submit">📤 Enviar Material</button>
-            </div>
-
-            <div class="section">
-                <h2>Materiais Uploadados</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Arquivo</th>
-                            <th>Turma</th>
-                            <th>Data</th>
-                            <th>Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>📄 Aula 01 - Intro Programação</td>
-                            <td>IG-10-A</td>
-                            <td>15/01/2024</td>
-                            <td><button class="btn-submit" style="padding: 6px 12px; background: #dc3545;">Excluir</button></td>
-                        </tr>
-                        <tr>
-                            <td>📄 Exercícios Práticos</td>
-                            <td>IG-10-A</td>
-                            <td>10/01/2024</td>
-                            <td><button class="btn-submit" style="padding: 6px 12px; background: #dc3545;">Excluir</button></td>
-                        </tr>
-                        <tr>
-                            <td>📄 Aula 02 - Variáveis</td>
-                            <td>IG-11-A</td>
-                            <td>20/02/2024</td>
-                            <td><button class="btn-submit" style="padding: 6px 12px; background: #dc3545;">Excluir</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+        <div id="turmas" class="section hide">
+    <h3 class="section-title">👥 Minhas Turmas</h3>
+    
+    <!-- Contentor responsivo para garantir que a tabela não quebre em ecrãs menores -->
+    <div class="table-container" style="overflow-x: auto; width: 100%;">
+        <table class="school-table">
+            <thead>
+                <tr>
+                    <th scope="col">Turma</th>
+                    <th scope="col">Classe</th>
+                    <th scope="col">Período</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Sala</th>
+                </tr>
+            </thead>
+            <!-- ID original estritamente mantido para não quebrar a tua integração com o JS/Supabase -->
+            <tbody id="tbody-turmas"></tbody>
+        </table>
     </div>
 </div>
 
+        <!-- NOTAS -->
+        <div id="notas" class="section hide">
+            <h3 class="section-title">📝 Lançar Notas</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Disciplina</th>
+                        <th>I TRIMESTRE</th>
+                        <th>II TRIMESTRE</th>
+                        <th>III TRIMESTRE</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-notas"></tbody>
+            </table>
+        </div>
+
+        <!-- FREQUÊNCIA -->
+        <div id="frequencia" class="section hide">
+            <h3 class="section-title">📋 Registros de Frequência</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Turma</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-frequencia"></tbody>
+            </table>
+        </div>
+
+        <!-- CONTEÚDOS -->
+        <div id="conteudos" class="section hide">
+            <h3 class="section-title"></h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Disciplina</th>
+                        <th>Tipo</th>
+                        <th>Data</th>
+                        <th>Downloads</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-conteudos"></tbody>
+            </table>
+        </div>
+
+        <!-- PUBLICAÇÕES -->
+        <div id="publicacoes" class="section hide">
+            <h3 class="section-title"></h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Data</th>
+                        <th>Views</th>
+                        <th>Likes</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-publicacoes"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../js/mockData.js"></script>
+<script src="../js/mockAuth.js"></script>
 <script>
 
-function loadProfessor() {
-    const userName = localStorage.getItem('user_name') || 'Dr. Carlos Silva';
-    const userEmail = localStorage.getItem('user_email') || 'carlos@ippe.ao';
+function checkAuth() {
+    if (!Auth.hasRole('professor')) {
+        window.location.href = './login.html';
+        return;
+    }
     
-    document.getElementById('userGreeting').textContent = `Bem-vindo, ${userName}!`;
-    document.getElementById('nomeProfessor').textContent = userName;
-    document.getElementById('emailProfessor').textContent = userEmail;
+    const user = Auth.getCurrentUser();
+    const professor = Data.getAll('professores').find(p => p.email === user.email) || {
+        nome: user.nome,
+        email: user.email,
+        especialidade: 'Ensino Geral'
+    };
+    
+    if (document.getElementById('userName')) {
+        document.getElementById('userName').textContent = professor.nome;
+    }
+    if (document.getElementById('userEmail')) {
+        document.getElementById('userEmail').textContent = professor.email;
+    }
+    
+    loadProfessorData(professor);
 }
 
-function showSection(section, e) {
-    e.preventDefault();
+function loadProfessorData(professor) {
+    const disciplinas = Data.getAll('disciplinas').filter(d => d.docente === professor.nome);
+    const notas = Data.getAll('notas').filter(n => disciplinas.some(d => d.nome === n.disciplina));
+    const frequencia = Data.getAll('frequencia').filter(f => disciplinas.some(d => d.nome === f.disciplina));
     
-    document.querySelectorAll('.section-container').forEach(el => el.classList.add('hide'));
+    const turmasSet = new Set(disciplinas.map(d => d.turma));
+    const turmas = Data.getAll('turmas').filter(t => turmasSet.has(t.nome));
+    
+    document.getElementById('statTurmas').textContent = turmas.length;
+    document.getElementById('statEstudantes').textContent = turmas.reduce((sum, t) => sum + t.alunos_inscritos, 0);
+    document.getElementById('statNotas').textContent = notas.length;
+    
+    const presente = frequencia.filter(f => f.status === 'Presente').length;
+    const taxaFrequencia = frequencia.length > 0 ? Math.round((presente / frequencia.length) * 100) : 0;
+    document.getElementById('statFrequencia').textContent = taxaFrequencia + '%';
+}
+
+function showSection(section, event) {
+    if (event) event.preventDefault();
+    
+    document.querySelectorAll('.section').forEach(el => el.classList.add('hide'));
     document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
     
-    document.getElementById(section).classList.remove('hide');
-    event.target.closest('.menu-item').classList.add('active');
+    const el = document.getElementById(section);
+    if (el) el.classList.remove('hide');
+    
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
+
+    if (section === 'turmas') loadTurmas();
+    else if (section === 'notas') loadNotas();
+    else if (section === 'frequencia') loadFrequencia();
+    else if (section === 'conteudos') loadConteudos();
+    else if (section === 'publicacoes') loadPublicacoes();
+}
+
+function loadTurmas() {
+    const user = Auth.getCurrentUser();
+    const professor = Data.getAll('professores').find(p => p.email === user.email);
+    const disciplinas = Data.getAll('disciplinas').filter(d => d.docente === professor.nome);
+    const turmasSet = new Set(disciplinas.map(d => d.turma));
+    const turmas = Data.getAll('turmas').filter(t => turmasSet.has(t.nome));
+    
+    const tbody = document.getElementById('tbody-turmas');
+    tbody.innerHTML = '';
+    
+    turmas.forEach(t => {
+        tbody.innerHTML += `<tr>
+            <td>${t.nome}</td>
+            <td>${t.nivel}</td>
+            <td>${t.turno}</td>
+            <td>${t.alunos_inscritos}/${t.capacidade}</td>
+            <td>${t.sala}</td>
+        </tr>`;
+    });
+}
+
+function loadNotas() {
+    const user = Auth.getCurrentUser();
+    const professor = Data.getAll('professores').find(p => p.email === user.email);
+    const disciplinas = Data.getAll('disciplinas').filter(d => d.docente === professor.nome);
+    const notas = Data.getAll('notas').filter(n => disciplinas.some(d => d.nome === n.disciplina));
+    
+    const tbody = document.getElementById('tbody-notas');
+    tbody.innerHTML = '';
+    
+    notas.forEach(n => {
+        tbody.innerHTML += `<tr>
+            <td>${n.aluno_nome}</td>
+            <td>${n.disciplina}</td>
+            <td><strong>${n.nota_final}</strong></td>
+            <td><input type="number" min="0" max="20" value="${n.nota_final}" style="width:60px;padding:5px;border:1px solid #ddd;border-radius:4px;"></td>
+        </tr>`;
+    });
+}
+
+function loadFrequencia() {
+    const frequencia = Data.getAll('frequencia');
+    
+    const tbody = document.getElementById('tbody-frequencia');
+    tbody.innerHTML = '';
+    
+    frequencia.slice(0, 10).forEach(f => {
+        const badge = `<span class="badge badge-${f.status === 'Presente' ? 'aprovado' : 'reprovado'}">${f.status}</span>`;
+        tbody.innerHTML += `<tr>
+            <td>${f.aluno_nome}</td>
+            <td>${f.turma}</td>
+            <td>${f.data}</td>
+            <td>${badge}</td>
+        </tr>`;
+    });
+}
+
+function loadConteudos() {
+    const conteudos = Data.getAll('conteudos');
+    
+    const tbody = document.getElementById('tbody-conteudos');
+    tbody.innerHTML = '';
+    
+    conteudos.forEach(c => {
+        tbody.innerHTML += `<tr>
+            <td>${c.titulo}</td>
+            <td>${c.disciplina}</td>
+            <td>${c.tipo}</td>
+            <td>${c.data_upload}</td>
+            <td><strong>${c.downloads}</strong></td>
+        </tr>`;
+    });
+}
+
+function loadPublicacoes() {
+    const user = Auth.getCurrentUser();
+    const publicacoes = Data.getAll('publicacoes').filter(p => p.autor === user.nome);
+    
+    const tbody = document.getElementById('tbody-publicacoes');
+    tbody.innerHTML = '';
+    
+    publicacoes.forEach(p => {
+        tbody.innerHTML += `<tr>
+            <td>${p.titulo}</td>
+            <td>${p.data}</td>
+            <td><strong>${p.views}</strong></td>
+            <td>❤️ ${p.likes}</td>
+        </tr>`;
+    });
 }
 
 function logout() {
     if (confirm('Deseja sair?')) {
-        localStorage.clear();
-        window.location.href = './login.html';
+        Auth.logout();
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadProfessor);
+document.addEventListener('DOMContentLoaded', checkAuth);
 
 </script>
 

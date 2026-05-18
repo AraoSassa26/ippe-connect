@@ -328,9 +328,10 @@
         </div>
         <button class="modal-button" onclick="fecharModalEsqueceuSenha()">OK, entendi</button>
     </div>
-</div>
+    </div>
 
-<script>
+    <script src="../js/mockAuth.js"></script>
+    <script>
 
 function showAlert(msg, type) {
     const box = document.getElementById('alertBox');
@@ -356,21 +357,31 @@ document.getElementById('modalEsqueceuSenha').addEventListener('click', function
     }
 });
 
+function handleSocialLogin() {
+    showAlert('Login social simulado com sucesso!', 'success');
+    setTimeout(() => {
+        window.location.href = 'dashboard-aluno.html';
+    }, 1200);
+}
+
 function loginGoogle() {
-    showAlert('⚠️ Login com Google ainda não está disponível', 'error');
+    handleSocialLogin();
 }
 
 function loginFacebook() {
-    showAlert('⚠️ Login com Facebook ainda não está disponível', 'error');
+    handleSocialLogin();
 }
 
-const usuarios = {
-    'joao@ippe.ao': { tipo: 'aluno', nome: 'João Silva', senha: '123' },
-    'maria@ippe.ao': { tipo: 'aluno', nome: 'Maria Santos', senha: '123' },
-    'professor@ippe.ao': { tipo: 'professor', nome: 'Dr. Carlos Silva', senha: '123' },
-    'admin@ippe.ao': { tipo: 'admin', nome: 'Administrador', senha: '123' },
-    'financeiro@ippe.ao': { tipo: 'financeiro', nome: 'Financeiro', senha: '123' }
-};
+function redirectIfAlreadyLoggedIn() {
+    if (Auth.isAuthenticated()) {
+        const user = Auth.getCurrentUser();
+        if (user && user.tipo) {
+            window.location.href = `dashboard-${user.tipo}.html`;
+        }
+    }
+}
+
+redirectIfAlreadyLoggedIn();
 
 document.getElementById('loginForm').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -388,28 +399,24 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
     btnLogin.innerHTML = '<span class="loading-spinner"></span>Autenticando...';
 
     setTimeout(() => {
-        const usuario = usuarios[email];
-        
-        if (!usuario || usuario.senha !== senha) {
+        const result = Auth.login(email, senha);
+        if (!result.success) {
             btnLogin.disabled = false;
             btnLogin.innerHTML = 'Entrar';
-            showAlert('Email ou palavra-passe incorretos', 'error');
+            showAlert(result.error, 'error');
             return;
         }
 
-        localStorage.setItem('user_type', usuario.tipo);
-        localStorage.setItem('user_name', usuario.nome);
-        localStorage.setItem('user_email', email);
-        
+        const user = result.user;
         showAlert('Login realizado!', 'success');
         
         setTimeout(() => {
-            window.location.href = `dashboard-${usuario.tipo}.html`;
-        }, 1500);
+            window.location.href = `dashboard-${user.tipo}.html`;
+        }, 1200);
     }, 800);
 });
 
-</script>
+    </script>
 
 </body>
 </html>

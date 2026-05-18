@@ -671,7 +671,8 @@ function mudarAba(aba, e) {
     document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
     
     document.getElementById(aba).classList.add('active');
-    event.target.classList.add('active');
+    const target = e?.target || window.event?.target;
+    if (target) target.classList.add('active');
 }
 
 // MODAIS
