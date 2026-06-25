@@ -70,5 +70,5 @@ Para dúvidas ou problemas:
 POWERED BY SASSA CORPORATION
 
 
-**Data:** 18 de Maio de 2024  
+**Data:** 25 de Junho de 2026 
 **Status:** ✅ Totalmente Funcional
